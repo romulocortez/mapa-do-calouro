@@ -8,7 +8,7 @@ export const test = base.extend({
     const erros = []; page.on("pageerror", e => erros.push(String(e)));
     // PAGINA=/beta/ roda os mesmos testes na versão beta (o padrão é o site principal, "/")
     const PAG = process.env.PAGINA || "/", ir = page.goto.bind(page);
-    page.goto = (u, o) => ir(typeof u === "string" ? u.replace(/^(http:\/\/localhost:4173)?\/(?=$|\?)/, (m, h) => (h || "") + PAG) : u, o);
+    page.goto = (u, o) => ir(typeof u === "string" ? u.replace(/^(http:\/\/localhost:4173)?\/(?!\/)/, (m, h) => (h || "") + PAG) : u, o);
     await use(page);
     expect(erros, "a página não pode ter erros de JavaScript").toEqual([]);
   },
@@ -17,6 +17,9 @@ export { expect };
 export async function abrirMapa(page, url = "/"){
   await page.goto(url);
   await page.locator("#openMap").click();
+  // a partir da V34, depois do juramento vem a escolha do campus (Teresina abre nesta mesma página)
+  const escolha = page.locator("#campusPick");
+  if (await escolha.count() && await escolha.isVisible()) await page.locator('#campusList button[data-campus="teresina"]').click();
   await page.waitForTimeout(700);
 }
 export const larguraVisao = page => page.evaluate(() => +document.getElementById("map").getAttribute("viewBox").split(" ")[2]);

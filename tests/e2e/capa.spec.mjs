@@ -6,6 +6,12 @@ test("a interface do mapa só aparece depois do juramento", async ({ page }) => 
   expect(await page.locator("#panel").evaluate(e => getComputedStyle(e).visibility)).toBe("hidden");
   await page.locator("#openMap").click();
   await expect(page.locator("#cover")).toBeHidden();
+  // na beta, antes do mapa vem a escolha do campus; a interface continua escondida até escolher
+  const escolha = page.locator("#campusPick");
+  if (await escolha.count() && await escolha.isVisible()){
+    expect(await page.locator("#panel").evaluate(e => getComputedStyle(e).visibility)).toBe("hidden");
+    await page.locator('#campusList button[data-campus="teresina"]').click();
+  }
   expect(await page.locator("#panel").evaluate(e => getComputedStyle(e).visibility)).toBe("visible");
 });
 
