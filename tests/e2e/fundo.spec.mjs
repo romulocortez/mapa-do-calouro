@@ -2,8 +2,6 @@ import { test, expect, abrirMapa, buscar } from "./_base.mjs";
 
 // O fundo fixo (terreno, mata, ruas, prédios) é pintado num <canvas> para os gestos ficarem leves.
 // Estes testes garantem que ele aparece, fica alinhado com o SVG e que dá para voltar ao SVG com ?svg=1.
-// Por enquanto isso existe só na versão beta (/beta/). Ao promover a beta para o site principal, apague a linha abaixo.
-test.skip(process.env.PAGINA !== "/beta/", "fundo em canvas ainda só na versão beta");
 
 async function pixelNoPredio(page){
   return page.evaluate(() => {

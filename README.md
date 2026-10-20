@@ -16,7 +16,7 @@ O site é um único arquivo: `index.html`. O resto da pasta são os testes autom
 ## Versão beta
 Mudanças grandes vão primeiro para `beta/index.html`, publicada em `/beta/` (ex.: https://romulocortez.github.io/mapa-do-calouro/beta/).
 Chaves de teste na beta: `?fps=1` mostra os quadros por segundo; `?svg=1` volta o fundo para o desenho antigo, para comparar no mesmo aparelho.
-Quando a beta estiver aprovada, ela substitui o `index.html` e a linha `test.skip(...)` de `tests/e2e/fundo.spec.mjs` é apagada.
+Testes de algo que só existe na beta começam com `test.skip(process.env.PAGINA !== "/beta/", ...)`. Quando a beta é aprovada, ela substitui o `index.html` (e `beta/audio/` vai para `audio/`), e essas linhas são apagadas.
 
 ## Como os testes aparecem no GitHub
 A cada envio de arquivos, abra a aba **Actions** do repositório. Um ✓ verde quer dizer que tudo passou;

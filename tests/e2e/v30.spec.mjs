@@ -1,7 +1,5 @@
 import { test, expect, abrirMapa, buscar } from "./_base.mjs";
 
-// Ajustes da V30. Só na beta até ela ser promovida (apague a linha abaixo então).
-test.skip(process.env.PAGINA !== "/beta/", "ajustes da V30 ainda só na versão beta");
 
 const larguraID = page => page.evaluate(() => { const g = document.querySelector("#people .pp.sel .bn"); return g ? g.getBoundingClientRect().width : 0; });
 const kAtual = page => page.evaluate(() => +document.getElementById("map").getAttribute("viewBox").split(" ")[2] / document.getElementById("stage").getBoundingClientRect().width);

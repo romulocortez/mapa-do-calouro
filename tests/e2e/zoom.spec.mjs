@@ -1,7 +1,5 @@
 import { test, expect, abrirMapa, larguraVisao } from "./_base.mjs";
 
-// Zoom com pinça (toque) e com a rodinha do mouse. Só na beta até ela ser promovida (apague a linha abaixo então).
-test.skip(process.env.PAGINA !== "/beta/", "ajustes de zoom ainda só na versão beta");
 
 // pinça de verdade, pelo protocolo do navegador (dois dedos que se afastam)
 async function pinca(page, ax, ay, bx, by, abrir){

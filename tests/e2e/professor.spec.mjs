@@ -3,7 +3,6 @@ import { test, expect, abrirMapa } from "./_base.mjs";
 // Easter egg do exemplo: um professor de Engenharia Mecânica que vai e volta entre a sala dos professores
 // do Bloco 02 e o LAMEC (Centro Integrado IV). Pela regra 15 do projeto, o teste não escreve o nome real:
 // ele procura o professor pelo papel ("PROFESSOR").
-test.skip(process.env.PAGINA !== "/beta/", "easter egg ainda só na versão beta");
 
 
 // toca no professor na lista (centraliza nele) e aproxima, para ele não virar parte de um balão de grupo

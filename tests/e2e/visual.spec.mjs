@@ -1,7 +1,5 @@
 import { test, expect, abrirMapa, buscar } from "./_base.mjs";
 
-// Ajustes de aparência da V29. Só na beta até ela ser promovida (apague a linha abaixo então).
-test.skip(process.env.PAGINA !== "/beta/", "ajustes visuais ainda só na versão beta");
 
 test("a aba de melhorias do mapa se chama Contribua", async ({ page }) => {
   await abrirMapa(page);

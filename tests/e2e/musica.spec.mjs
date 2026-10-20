@@ -1,7 +1,6 @@
 import { test, expect, abrirMapa } from "./_base.mjs";
 
 // Trilha sonora: a 1ª música, depois a 2ª, e as duas em loop para sempre. Botão para silenciar, lembrado no aparelho.
-test.skip(process.env.PAGINA !== "/beta/", "trilha sonora ainda só na versão beta");
 
 const estado = page => page.evaluate(() => { const a = window.__musica; return a ? {src: a.src.split("/").pop(), pausada: a.paused} : null; });
 const terminar = page => page.evaluate(() => window.__musica.dispatchEvent(new Event("ended")));

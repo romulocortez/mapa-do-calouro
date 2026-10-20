@@ -33,7 +33,6 @@ test("os botões + e − mudam o zoom", async ({ page }) => {
 });
 
 test("o mapa nunca rola por dentro (os botões de zoom ficam no lugar depois de usados)", async ({ page, isMobile }) => {
-  test.skip(process.env.PAGINA !== "/beta/", "correção ainda só na versão beta");
   await abrirMapa(page);
   const antes = await page.locator(".ctrls").boundingBox();
   // com a aba de baixo aberta, o botão fica coberto; foco ou "rolar até o elemento" não podem deslocar o mapa
