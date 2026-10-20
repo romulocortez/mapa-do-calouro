@@ -3190,7 +3190,7 @@ $("openMap").onclick = () => {
     world.classList.remove("drawing"); void world.getBoundingClientRect(); world.classList.add("drawing");
     setTimeout(() => world.classList.remove("drawing"), 3200);
   } else { mapWrap.classList.remove("reveal"); void mapWrap.offsetWidth; mapWrap.classList.add("reveal"); setTimeout(() => mapWrap.classList.remove("reveal"), 1300); }
-  if (mqPhone.matches && !lsGet("mdc.tapHint", false)){ lsSet("mdc.tapHint", true); setTimeout(() => toast("Dica: dois toques aproximam o mapa; três toques afastam."), 1600); }
+  if (mqPhone.matches && !lsGet("mdc.tapHint", false)){ lsSet("mdc.tapHint", true); setTimeout(() => { if ($("toast").hidden) toast("Dica: dois toques aproximam o mapa; três toques afastam."); }, 1600); }   // a dica nunca cobre um aviso mais importante
 };
 
 
