@@ -149,6 +149,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .pp .dot{fill:var(--ink)}
 .pp .foot{fill:var(--ink);opacity:0}
 .pp.calouro .foot,.pp.calouro .dot{fill:var(--seal)}
+.pp.professor .foot,.pp.professor .dot{fill:#f2c200;stroke:#3b2414;stroke-width:.5}   /* botas amarelas do professor (easter egg do exemplo) */
+.pp.professor .rib-r{fill:var(--gold)}
+.steps.prof .step{fill:#e0b400}
+.tag.p{color:var(--gold);border-color:var(--gold)}
 .pp.veterano .foot,.pp.veterano .dot{fill:var(--vet)}
 /* animações em degraus: o SVG é repintado só a cada degrau, não 60 vezes por segundo (pegadas piscando são o estilo do mapa) */
 .pp .f1{animation:step 3.6s steps(3) infinite 0s} .pp .f2{animation:step 3.6s steps(3) infinite .9s}
@@ -967,6 +971,8 @@ const el = (tag, attrs={}, parent) => { const e = document.createElementNS(NS, t
 const h = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
 function hash(s){ let x=2166136261; for (const c of String(s)) { x^=c.charCodeAt(0); x=Math.imul(x,16777619); } return x>>>0; }
 const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const ROLE_TXT = r => r === "v" ? "VETERANO" : r === "p" ? "PROFESSOR" : "CALOURO";
+const ROLE_CLS = r => r === "v" ? "veterano" : r === "p" ? "professor" : "calouro";
 const dist = (a,b) => Math.hypot(a.x-b.x, a.y-b.y);
 const norm = s => String(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toUpperCase().replace(/[^A-Z0-9]+/g," ").trim();
 const nkey = s => norm(s).replace(/ /g,"");
@@ -1682,10 +1688,11 @@ function updateMarker(m, d, o){
     if (far > 150){ m.disp = {x:d.x, y:d.y}; trailReset(m.tr, d.x, d.y); walkers.delete(m); }
     else if (far > 0.3){ walkers.add(m); if (!walkRaf) walkRaf = requestAnimationFrame(walkTick); }
   }
-  m.g.setAttribute("class", `pp ${d.role==="v"?"veterano":"calouro"}${d.help?" help":""}${o.me?" me":""}${o.demo?" demo":""}${selPerson===m.key?" sel":""}`);
-  const label = d.name + (o.me ? " (você)" : "") + (o.demo ? " (exemplo)" : "");
+  m.tr.g.classList.toggle("prof", d.role === "p");
+  m.g.setAttribute("class", `pp ${ROLE_CLS(d.role)}${d.help?" help":""}${o.me?" me":""}${o.demo?" demo":""}${selPerson===m.key?" sel":""}`);
+  const label = d.name + (o.me ? " (você)" : "") + (o.demo && !d.egg ? " (exemplo)" : "");
   const st = statsFor(o.uid);
-  const roleTxt = (d.role==="v"?"VETERANO":"CALOURO") + ((st.helps || st.contrib) ? " · " + titleFor(st.xp).title.toUpperCase() : "") + (d.help ? " · PEDE AJUDA" : "");
+  const roleTxt = ROLE_TXT(d.role) + ((st.helps || st.contrib) ? " · " + titleFor(st.xp).title.toUpperCase() : "") + (d.help ? " · PEDE AJUDA" : "");
   const sig = label + "|" + roleTxt;
   if (sig !== m.sig){ m.sig = sig; m.tp.textContent = label; m.r.textContent = roleTxt.length > 36 ? roleTxt.slice(0,35)+"…" : roleTxt; m.nameW = 0; }
   if (!m.nameW){
@@ -1811,8 +1818,8 @@ function renderList(all){
   for (const i of items.slice(0, 150)){
     const li = h("li"), b = h("button","it");
     const mid = h("span"); mid.style.minWidth = "0";
-    const nm = h("span","nm", i.d.name + (i.demo ? " (exemplo)" : ""));
-    nm.appendChild(h("span","tag "+i.d.role, i.d.role==="v" ? "VETERANO" : "CALOURO"));
+    const nm = h("span","nm", i.d.name + (i.demo && !i.d.egg ? " (exemplo)" : ""));
+    nm.appendChild(h("span","tag "+i.d.role, ROLE_TXT(i.d.role)));
     if (i.d.help) nm.appendChild(h("span","tag h","AJUDA"));
     const st = statsFor(i.uid);
     mid.append(nm, h("span","ds", [(st.helps || st.contrib) ? titleFor(st.xp).title : "", i.d.curso, whereText(i.d), i.d.msg ? `“${i.d.msg}”` : ""].filter(Boolean).join(" · ")));
@@ -1831,8 +1838,8 @@ function renderPersonCard(all){
   const i = all.find(x => x.key === selPerson); if (!i){ selPerson = null; return; }
   const c = h("div","card");
   const st = statsFor(i.uid);
-  c.append(h("div","k", (i.d.role==="v" ? "VETERANO" : "CALOURO") + ((st.helps || st.contrib) ? " · " + titleFor(st.xp).title.toUpperCase() : "") + (i.d.help ? " · PEDINDO AJUDA" : "")));
-  const t = h("h4", null, i.d.name + (i.me ? " (você)" : i.demo ? " (exemplo)" : "")); t.style.fontFamily = "var(--hand)"; t.style.fontStyle = "italic"; c.appendChild(t);
+  c.append(h("div","k", ROLE_TXT(i.d.role) + ((st.helps || st.contrib) ? " · " + titleFor(st.xp).title.toUpperCase() : "") + (i.d.help ? " · PEDINDO AJUDA" : "")));
+  const t = h("h4", null, i.d.name + (i.me ? " (você)" : i.demo && !i.d.egg ? " (exemplo)" : "")); t.style.fontFamily = "var(--hand)"; t.style.fontStyle = "italic"; c.appendChild(t);
   c.appendChild(h("p", null, [i.d.curso, whereText(i.d), st.helps ? `${st.helps} ${st.helps===1?"ajuda confirmada":"ajudas confirmadas"}` : "", st.contrib ? `${st.contrib} ${st.contrib===1?"contribuição ao mapa":"contribuições ao mapa"}` : ""].filter(Boolean).join(" · ")));
   if (i.d.msg){ const q = h("p", null, `“${i.d.msg}”`); q.style.fontStyle = "italic"; c.appendChild(q); }
   if (here() && !i.me) c.appendChild(h("p","muted", `Distância: ${walkTxt(dist(i.d, here()))}`));
@@ -3224,6 +3231,38 @@ const DEMO_PEOPLE = [
   {n:"João Victor", r:"c", cu:"Ciência da Computação", m:""},
 ];
 const DEMO_START = {1:"ct", 2:"bccb", 3:"reit"};
+// easter egg (pedido do coordenador do projeto, que é o próprio professor): no exemplo, ele vai e volta
+// entre a sala dos professores do Bloco 02 (Mecânica) e o LAMEC, no Centro Integrado IV, pelos caminhos do campus
+const PROF_EGG = {name:"Prof. Rômulo Cortez", role:"p", curso:"Engenharia Mecânica", msg:"entre a sala dos professores e o LAMEC", help:false, egg:true};
+function profRoute(net){
+  const sala = (bid, ok) => { const b = IN_BY.get(bid), r = b && b.rooms.find(ok); return r ? {x:r.c[0], y:r.c[1]} : null; };
+  const A = sala("b02", r => /Professores/.test(r.n)), B = sala("ci4", r => r.lbl === "LAMEC");
+  if (!A || !B) return null;
+  const s = nearestNode(net, A.x, A.y), t = nearestNode(net, B.x, B.y);
+  const dist = new Map([[s, 0]]), prev = new Map(), open = new Set([s]);   // Dijkstra simples: a rede tem poucos nós
+  while (open.size){
+    let c = null, cd = Infinity; for (const n of open){ const d = dist.get(n); if (d < cd){ cd = d; c = n; } }
+    open.delete(c); if (c === t) break;
+    for (const n of c.adj){ const nd = cd + Math.hypot(n.x - c.x, n.y - c.y); if (nd < (dist.has(n) ? dist.get(n) : Infinity)){ dist.set(n, nd); prev.set(n, c); open.add(n); } }
+  }
+  if (!dist.has(t)) return null;
+  const path = []; for (let n = t; n; n = prev.get(n)) path.unshift({x:n.x, y:n.y});
+  return [A, ...path, B];
+}
+function shuttleAdvance(w, dist){
+  const R = w.route;
+  if (w.wait > 0) w.wait--;
+  else while (dist > 0){
+    const a = R[w.i], b = R[w.i + w.dir];
+    if (!b){ w.dir = -w.dir; w.wait = 9; break; }   // chegou numa ponta: fica uns segundos e volta
+    const L = Math.hypot(b.x - a.x, b.y - a.y) || 0.01;
+    if (w.along + dist < L){ w.along += dist; dist = 0; } else { dist -= L - w.along; w.along = 0; w.i += w.dir; }
+  }
+  const a = R[w.i], b = R[w.i + w.dir] || a, L = Math.hypot(b.x - a.x, b.y - a.y) || 1, f = Math.min(1, w.along / L);
+  w.x = a.x + (b.x - a.x)*f; w.y = a.y + (b.y - a.y)*f;
+  w.hist.unshift({x:w.x, y:w.y}); if (w.hist.length > 12) w.hist.length = 12;
+}
+const advanceDemo = w => (w.route ? shuttleAdvance : walkerAdvance)(w, w.speed*0.7);
 function startDemo(){
   const net = demoNet(); if (net.length < 10){ toast("A rede de caminhos não carregou para o exemplo."); return; }
   demoOn = true; demoSeed = 12345; demoPeople = [];
@@ -3240,7 +3279,9 @@ function startDemo(){
     }
     demoPeople.push({id:"d"+i, w, d:{name:p.n, role:p.r, curso:p.cu, msg:p.m, help:!!p.h, x:0, y:0}});
   });
-  for (let t = 0; t < 10; t++) for (const p of demoPeople) if (!p.w.follow) walkerAdvance(p.w, p.w.speed*0.7);
+  const rota = profRoute(net);
+  if (rota) demoPeople.push({id:"dprof", w:{route:rota, i:0, dir:1, along:0, wait:3, hist:[], speed:1.3}, d:{...PROF_EGG, x:rota[0].x, y:rota[0].y}});
+  for (let t = 0; t < 10; t++) for (const p of demoPeople) if (!p.w.follow) advanceDemo(p.w);
   const place = () => {
     for (const p of demoPeople){
       const w = p.w;
@@ -3254,7 +3295,7 @@ function startDemo(){
   clearInterval(demoT);
   demoT = setInterval(() => {
     if (document.hidden) return;
-    for (const p of demoPeople) if (!p.w.follow) walkerAdvance(p.w, p.w.speed*0.7);
+    for (const p of demoPeople) if (!p.w.follow) advanceDemo(p.w);
     place(); render();
   }, 700);
   renderNow();
