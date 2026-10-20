@@ -1,0 +1,15 @@
+{
+  "name": "mapa-do-calouro",
+  "private": true,
+  "type": "module",
+  "description": "Mapa do Calouro — mapa ilustrado do Campus Ministro Petrônio Portella (UFPI) para calouros e veteranos",
+  "scripts": {
+    "test": "npm run test:regras && npm run test:navegador",
+    "test:regras": "node --test \"tests/unit/*.test.mjs\"",
+    "test:navegador": "playwright test",
+    "servidor": "node tests/servidor.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.0"
+  }
+}
