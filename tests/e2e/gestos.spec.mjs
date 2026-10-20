@@ -31,3 +31,20 @@ test("os botões + e − mudam o zoom", async ({ page }) => {
   await page.locator("#zout").click();
   await expect.poll(() => larguraVisao(page), { timeout: 4000 }).toBeCloseTo(w0, 0);
 });
+
+test("o mapa nunca rola por dentro (os botões de zoom ficam no lugar depois de usados)", async ({ page, isMobile }) => {
+  test.skip(process.env.PAGINA !== "/beta/", "correção ainda só na versão beta");
+  await abrirMapa(page);
+  const antes = await page.locator(".ctrls").boundingBox();
+  // com a aba de baixo aberta, o botão fica coberto; foco ou "rolar até o elemento" não podem deslocar o mapa
+  await page.locator("#tab-gente").click(); await page.waitForTimeout(300);
+  // é o que o navegador faz ao rolar até um botão coberto pela aba (aconteceu ao tocar no zoom com a aba aberta)
+  await page.evaluate(() => { document.getElementById("stage").scrollTo(195, 420); });
+  await page.waitForTimeout(100);
+  for (let i = 0; i < 2; i++){ await page.evaluate(() => document.getElementById("zin").click()); await page.waitForTimeout(300); }
+  if (isMobile){ await page.locator(".grab").click(); await page.waitForTimeout(400); }
+  const rolagem = await page.evaluate(() => { const s = document.getElementById("stage"); return [s.scrollLeft, s.scrollTop]; });
+  expect(rolagem).toEqual([0, 0]);
+  const depois = await page.locator(".ctrls").boundingBox();
+  expect(Math.abs(depois.x - antes.x)).toBeLessThan(1);
+});
