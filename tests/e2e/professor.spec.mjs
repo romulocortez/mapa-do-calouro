@@ -51,3 +51,17 @@ test("o professor anda entre a sala dos professores do Bloco 02 e o LAMEC, pelo 
   for (const p of vistos) expect(naZona(p), `posição ${p}`).toBe(true);
   expect(new Set(vistos.map(p => p.join())).size, "ele se movimenta").toBeGreaterThan(1);
 });
+
+test("o professor já está no mapa sem tocar em 'Ver um exemplo' e não conta como pessoa online", async ({ page }) => {
+  await abrirMapa(page);
+  await page.locator("#tab-gente").click();
+  await expect(page.locator("#peopleList li", { hasText: "PROFESSOR" })).toHaveCount(1);
+  await expect(page.locator("#peopleList li", { hasText: "(exemplo)" })).toHaveCount(0);
+  await expect(page.locator("#peopleCount")).toHaveText("");
+  // ligar e desligar o exemplo não duplica nem tira o professor
+  await page.locator("#demoBtn").click(); await page.waitForTimeout(800);
+  await expect(page.locator("#peopleList li", { hasText: "PROFESSOR" })).toHaveCount(1);
+  await page.locator("#demoBtn").click(); await page.waitForTimeout(800);
+  await expect(page.locator("#peopleList li", { hasText: "PROFESSOR" })).toHaveCount(1);
+});
+
