@@ -2,18 +2,18 @@
 
 Não sou advogado: para dúvidas jurídicas, consultar o encarregado de dados (DPO) da UFPI.
 
-| # | Pergunta | V27 (19/10/2026) | V28 beta (20/10/2026) |
-|---|---|---|---|
-| 1 | A versão cria algum dado pessoal novo? Qual, e ele é mesmo necessário? | Não cria. Conversas da aba Ajuda agora expiram. | Não. Só muda o desenho do mapa (fundo em canvas). |
-| 2 | Onde esse dado fica guardado, e quem consegue ler? | Banco do artefato no Claude: pedidos, ofertas e relatos por pessoa; a coordenação lê relatos e denúncias. | Nada novo. O canvas fica só na memória do aparelho. |
-| 3 | Por quanto tempo ele fica guardado? Há exclusão automática? | Conversas de pedidos encerrados: 30 dias. Relatos: até 40 por pessoa (falta prazo; ver pendências). | Nada novo. |
-| 4 | A localização é gravada em algum lugar? | Não. Só a presença ao vivo; os relatos guardam o ponto do problema, não a pessoa. | Não. O canvas desenha só ruas e prédios, nunca pessoas. |
-| 5 | O XP pode ser forjado pelo celular? | Não: é recalculado das confirmações e das decisões da coordenação (testes em `tests/unit/trapaca.test.mjs`). | Nada muda no XP. |
-| 6 | Há chave secreta ou dado real no repositório? | Não (teste `segredos.test.mjs`). | Não (teste `segredos.test.mjs` também na beta). |
-| 7 | Textos enviados são checados contra telefone, e-mail e CPF? | Sim: CPF bloqueado; telefone e e-mail pedem confirmação. | Sem mudança. |
-| 8 | Fotos saem sem localização da câmera (EXIF)? | Sim, a foto é redesenhada antes do envio. | Sem mudança. |
-| 9 | Existe aviso claro do que é público e do que não é privado? | Sim na aba Ajuda. Falta o texto de consentimento antes de aparecer no mapa. | Sem mudança. |
-| 10 | Todos os testes passaram? | Sim (`npm test`). | Sim: `npm test` (principal) e `PAGINA=/beta/ npm test` (beta). |
+| # | Pergunta | V27 (19/10/2026) | V28 beta (20/10/2026) | V29 beta (20/10/2026) |
+|---|---|---|---|---|
+| 1 | A versão cria algum dado pessoal novo? Qual, e ele é mesmo necessário? | Não cria. Conversas da aba Ajuda agora expiram. | Não. Só muda o desenho do mapa (fundo em canvas). | Não. Fonte, pergaminho, zoom e aba Contribua. |
+| 2 | Onde esse dado fica guardado, e quem consegue ler? | Banco do artefato no Claude: pedidos, ofertas e relatos por pessoa; a coordenação lê relatos e denúncias. | Nada novo. O canvas fica só na memória do aparelho. | Nada novo. |
+| 3 | Por quanto tempo ele fica guardado? Há exclusão automática? | Conversas de pedidos encerrados: 30 dias. Relatos: até 40 por pessoa (falta prazo; ver pendências). | Nada novo. | Nada novo. |
+| 4 | A localização é gravada em algum lugar? | Não. Só a presença ao vivo; os relatos guardam o ponto do problema, não a pessoa. | Não. O canvas desenha só ruas e prédios, nunca pessoas. | Não. Centralizar uma pessoa só move a câmera no próprio aparelho. |
+| 5 | O XP pode ser forjado pelo celular? | Não: é recalculado das confirmações e das decisões da coordenação (testes em `tests/unit/trapaca.test.mjs`). | Nada muda no XP. | Nada muda no XP. |
+| 6 | Há chave secreta ou dado real no repositório? | Não (teste `segredos.test.mjs`). | Não (teste `segredos.test.mjs` também na beta). | Não (imagem do pergaminho é desenho, sem dado pessoal). |
+| 7 | Textos enviados são checados contra telefone, e-mail e CPF? | Sim: CPF bloqueado; telefone e e-mail pedem confirmação. | Sem mudança. | Sem mudança. |
+| 8 | Fotos saem sem localização da câmera (EXIF)? | Sim, a foto é redesenhada antes do envio. | Sem mudança. | Sem mudança. |
+| 9 | Existe aviso claro do que é público e do que não é privado? | Sim na aba Ajuda. Falta o texto de consentimento antes de aparecer no mapa. | Sem mudança. | Sem mudança. |
+| 10 | Todos os testes passaram? | Sim (`npm test`). | Sim: `npm test` (principal) e `PAGINA=/beta/ npm test` (beta). | Sim: principal e beta. |
 
 ## Pendências conhecidas (fase Supabase)
 - Login com e-mail institucional e e-mail criptografado no banco.
