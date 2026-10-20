@@ -5,10 +5,9 @@ test("o exemplo mostra 20 pessoas andando e grupos viram balões quando o mapa e
   await page.locator("#tab-gente").click();
   await page.locator("#demoBtn").click();
   await page.waitForTimeout(2500);
-  await expect(page.locator("#peopleList li")).toHaveCount(20);
+  // 20 pessoas marcadas como exemplo (na beta há também o professor do easter egg, que não leva a marca)
+  await expect(page.locator("#peopleList li", { hasText: "(exemplo)" })).toHaveCount(20);
   expect(await page.locator("#clusters .cluster-pin").count()).toBeGreaterThan(0);
-  const pos1 = await page.locator("#peopleList li").count();
-  expect(pos1).toBe(20);
 });
 
 test("as pessoas do exemplo andam sobre os caminhos (não ficam paradas)", async ({ page }) => {
