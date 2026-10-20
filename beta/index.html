@@ -50,6 +50,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 #mapWrap{position:absolute;left:-50%;top:-50%;width:200%;height:200%;overflow:hidden;transform-origin:25% 25%;will-change:transform;pointer-events:none}
 #mapWrap #map{inset:auto;left:25%;top:25%;width:50%;height:50%;pointer-events:auto}
 #baseCv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#zsom[aria-pressed="true"] .som-off,#zsom[aria-pressed="false"] .som-on{display:none}
 .fpsbox{position:absolute;left:12px;top:calc(58px + env(safe-area-inset-top,0px));z-index:7;background:var(--ink);color:var(--paper-3);font:600 12px/1.2 ui-monospace,Menlo,monospace;padding:3px 8px;pointer-events:none;white-space:nowrap}
 #world.cv #base > :not(.scale),#world.cv #bldG > :not(.disco){visibility:hidden}
 #mapWrap.reveal{animation:reveal 1.1s ease both}
@@ -617,6 +618,7 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
       <button id="zin" aria-label="Aproximar">+</button>
       <button id="zout" aria-label="Afastar">−</button>
       <button id="zfit" aria-label="Ver o campus inteiro" title="Campus principal / incluir o CCA"><svg viewBox="0 0 20 20"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg></button>
+      <button id="zsom" aria-label="Música" aria-pressed="true" title="Ligar ou desligar a música"><svg viewBox="0 0 20 20"><path d="M3 8h3l4-4v12l-4-4H3z"/><path class="som-on" d="M13 7a4 4 0 0 1 0 6M15.5 4.5a7.5 7.5 0 0 1 0 11"/><path class="som-off" d="M13 7l5 6M18 7l-5 6"/></svg></button>
       <button id="zme" aria-label="Centralizar em mim" title="Centralizar em mim (liga a localização se estiver desligada)"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="3"/><path d="M10 1v4M10 15v4M1 10h4M15 10h4"/></svg></button>
     </div>
 
@@ -3415,9 +3417,24 @@ function subscribeData(){
   }, () => {});
 }
 
+// ---------- trilha sonora ----------
+// As duas músicas tocam em sequência e depois repetem para sempre. Começa no toque em "Juro solenemente…"
+// (o navegador só permite som depois de um toque), pausa quando o app sai da tela e tem botão para silenciar.
+const TRILHAS = ["audio/trilha-1.m4a", "audio/trilha-2.m4a"];
+const musica = new Audio(); musica.preload = "none"; musica.volume = 0.45; let trilhaI = 0;
+window.__musica = musica;   // para os testes automáticos
+const somLigado = () => lsGet("mdc.som", true) !== false;
+function tocarMusica(){ if (!musica.getAttribute("src")) musica.src = TRILHAS[trilhaI]; const p = musica.play(); if (p && p.catch) p.catch(() => {}); }
+musica.addEventListener("ended", () => { trilhaI = (trilhaI + 1) % TRILHAS.length; musica.src = TRILHAS[trilhaI]; if (somLigado() && !document.hidden) tocarMusica(); });
+function marcarSom(){ $("zsom").setAttribute("aria-pressed", String(somLigado())); $("zsom").title = somLigado() ? "Desligar a música" : "Ligar a música"; }
+$("zsom").onclick = () => { lsSet("mdc.som", !somLigado()); marcarSom(); if (somLigado()) tocarMusica(); else musica.pause(); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) musica.pause(); else if (somLigado() && document.documentElement.classList.contains("map-open")) tocarMusica(); });
+marcarSom();
+
 // ---------- cover ----------
 $("openMap").onclick = () => {
   $("cover").hidden = true; document.documentElement.classList.add("map-open");
+  if (somLigado()) tocarMusica(); else if (!musica.getAttribute("src")) musica.src = TRILHAS[trilhaI];
   // no computador o mapa se desenha a tinta; no celular, um esmaecer feito pela placa de vídeo (bem mais leve)
   if (!mqPhone.matches && !matchMedia("(prefers-reduced-motion: reduce)").matches){
     CV.disable(); world.classList.remove("drawing"); void world.getBoundingClientRect(); world.classList.add("drawing");
