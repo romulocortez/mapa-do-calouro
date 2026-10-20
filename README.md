@@ -13,6 +13,11 @@ O site é um único arquivo: `index.html`. O resto da pasta são os testes autom
 | `tests/e2e/` | Testes que abrem o mapa num navegador de verdade: capa, salas e andares, toques, pessoas, contribuições, privacidade e desempenho com 1000 pessoas. |
 | `.github/workflows/testes.yml` | Faz o GitHub rodar todos os testes sozinho a cada atualização. |
 
+## Versão beta
+Mudanças grandes vão primeiro para `beta/index.html`, publicada em `/beta/` (ex.: https://romulocortez.github.io/mapa-do-calouro/beta/).
+Chaves de teste na beta: `?fps=1` mostra os quadros por segundo; `?svg=1` volta o fundo para o desenho antigo, para comparar no mesmo aparelho.
+Quando a beta estiver aprovada, ela substitui o `index.html` e a linha `test.skip(...)` de `tests/e2e/fundo.spec.mjs` é apagada.
+
 ## Como os testes aparecem no GitHub
 A cada envio de arquivos, abra a aba **Actions** do repositório. Um ✓ verde quer dizer que tudo passou;
 um ✗ vermelho mostra qual teste quebrou (e o relatório fica disponível para baixar por 7 dias).
