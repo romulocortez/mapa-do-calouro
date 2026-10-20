@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
 export const RAIZ = fileURLToPath(new URL("../../", import.meta.url));
-export const HTML = readFileSync(RAIZ + "index.html", "utf8");
+// PAGINA=/beta/ lê a versão beta; o padrão é o index.html principal
+export const ARQUIVO = (process.env.PAGINA || "/").replace(/^\//, "") + "index.html";
+export const HTML = readFileSync(RAIZ + ARQUIVO, "utf8");
 
 const ini = HTML.indexOf("/* <regras-xp>"), fim = HTML.indexOf("/* </regras-xp> */");
 if (ini < 0 || fim < 0) throw new Error("Bloco <regras-xp> não encontrado no index.html");

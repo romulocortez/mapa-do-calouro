@@ -18,6 +18,11 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm test
+      - name: Testes na versão beta (/beta/)
+        if: hashFiles('beta/index.html') != ''
+        run: npm test
+        env:
+          PAGINA: /beta/
       - name: Relatório dos testes de navegador (se falhar)
         if: failure()
         uses: actions/upload-artifact@v4

@@ -6,6 +6,9 @@ export const test = base.extend({
   page: async ({ page }, use) => {
     await page.route(/fonts\.(googleapis|gstatic)\.com/, r => r.abort());
     const erros = []; page.on("pageerror", e => erros.push(String(e)));
+    // PAGINA=/beta/ roda os mesmos testes na versão beta (o padrão é o site principal, "/")
+    const PAG = process.env.PAGINA || "/", ir = page.goto.bind(page);
+    page.goto = (u, o) => ir(typeof u === "string" ? u.replace(/^(http:\/\/localhost:4173)?\/(?=$|\?)/, (m, h) => (h || "") + PAG) : u, o);
     await use(page);
     expect(erros, "a página não pode ter erros de JavaScript").toEqual([]);
   },
