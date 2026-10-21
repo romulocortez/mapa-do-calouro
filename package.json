@@ -4,12 +4,14 @@
   "type": "module",
   "description": "Mapa do Calouro — mapa ilustrado do Campus Ministro Petrônio Portella (UFPI) para calouros e veteranos",
   "scripts": {
-    "test": "npm run test:regras && npm run test:navegador",
+    "test": "npm run test:regras && npm run test:banco && npm run test:navegador",
     "test:regras": "node --test --test-reporter=spec \"tests/unit/*.test.mjs\"",
     "test:navegador": "playwright test",
-    "servidor": "node tests/servidor.mjs"
+    "servidor": "node tests/servidor.mjs",
+    "test:banco": "node --test --test-reporter=spec \"tests/db/*.test.mjs\""
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
     "@playwright/test": "1.56.0"
   }
 }

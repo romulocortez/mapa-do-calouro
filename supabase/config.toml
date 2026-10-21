@@ -1,0 +1,42 @@
+# Configuração do projeto para a ferramenta do Supabase (supabase/setup-cli).
+# O que vale no projeto de verdade está descrito em docs/SUPABASE.md (painel do Supabase).
+project_id = "mapa-do-calouro"
+
+[api]
+schemas = ["public"]             # funções internas (schema privado) não ficam na API
+extra_search_path = ["public"]
+max_rows = 200
+
+[auth]
+site_url = "https://romulocortez.github.io/mapa-do-calouro/"
+additional_redirect_urls = ["https://romulocortez.github.io/mapa-do-calouro/beta/"]
+enable_signup = true
+enable_anonymous_sign_ins = false
+jwt_expiry = 3600
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false     # o código de 6 dígitos já confirma o e-mail
+otp_length = 6
+otp_expiry = 600
+
+[auth.email.template.magic_link]
+subject = "Seu código do Mapa do Calouro"
+content_path = "./supabase/templates/codigo.html"
+
+[auth.email.template.confirmation]
+subject = "Seu código do Mapa do Calouro"
+content_path = "./supabase/templates/codigo.html"
+
+[auth.external.google]
+enabled = false
+
+[auth.hook.before_user_created]
+enabled = true
+uri = "pg-functions://postgres/public/hook_antes_de_criar_usuario"
+
+[realtime]
+enabled = true
+
+[storage]
+file_size_limit = "400KiB"
