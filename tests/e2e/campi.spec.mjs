@@ -1,7 +1,6 @@
 import { test, expect, buscar } from "./_base.mjs";
 
-// Escolha do campus depois do juramento e o mapa de Picos (prévia). Só na beta até ela ser promovida.
-test.skip(process.env.PAGINA !== "/beta/", "escolha de campus ainda só na versão beta");
+// Escolha do campus depois do juramento e o mapa de Picos (prévia).
 
 test("depois do juramento aparece a escolha entre os 4 campi; Bom Jesus e Floriano ainda não abrem", async ({ page }) => {
   await page.goto("/");

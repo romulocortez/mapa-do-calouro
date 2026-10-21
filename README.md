@@ -19,7 +19,7 @@ Chaves de teste na beta: `?fps=1` mostra os quadros por segundo; `?svg=1` volta 
 Testes de algo que só existe na beta começam com `test.skip(process.env.PAGINA !== "/beta/", ...)`. Quando a beta é aprovada, ela substitui o `index.html` (e `beta/audio/` vai para `audio/`), e essas linhas são apagadas.
 
 ## Campi
-Cada campus é uma página com os mesmos códigos e dados próprios: Teresina em `index.html`, Picos em `picos/index.html` (por enquanto só na beta).
+Cada campus é uma página com os mesmos códigos e dados próprios: Teresina em `index.html`, Picos em `picos/index.html`.
 O mapa de Picos (prévia) foi desenhado a partir de uma imagem de satélite (escala da barra do Google) e do croqui de salas; tudo está marcado como aproximado e o GPS fica desligado até termos pontos com latitude e longitude.
 
 ## Como os testes aparecem no GitHub
