@@ -28,7 +28,11 @@ Toda tabela tem regra de acesso (RLS). Sem login, nada é lido. Sem e-mail @ufpi
 ### 2. Pegar os três valores
 - **Project ref:** em **Project Settings → General**, o código do projeto (algo como `abcdxyz…`).
 - **URL e chave pública:** em **Project Settings → API**: a **Project URL** e a chave **anon / publishable**. Essas duas são públicas: pode me mandar, elas vão para o site.
-- **Token de acesso:** no seu avatar → **Account → Access Tokens → Generate new token**, com o nome `github-mapa`.
+- **Conexão do banco:** no projeto, botão **Connect** (topo) → **Session pooler** → copie a linha de conexão (URI) e troque `[YOUR-PASSWORD]` pela senha do passo 1.
+- **Token de acesso:** no seu avatar → **Account → Access Tokens → Generate new token**:
+  - **Name:** `github-mapa`; **Expires in:** 90 dias (anote na agenda para renovar).
+  - **Resource access:** Project → a organização do mapa → o projeto `mapa-do-calouro`.
+  - **Permissions:** tudo em **None**, menos, em *Application services*: configuração de **Auth**, **Storage**, **Realtime** e **Data API / PostgREST** em **Read-write**. Nada de *Database*, *Backups*, *Migrations* nem *API Keys*: as migrações usam a conexão acima, e o token não precisa tocar no banco.
 
 Nunca mande a chave **service_role / secret** a ninguém, nem para o Claude. O site não usa essa chave.
 
@@ -36,7 +40,7 @@ Nunca mande a chave **service_role / secret** a ninguém, nem para o Claude. O s
 No repositório, **Settings → Secrets and variables → Actions**:
 - Aba **Secrets → New repository secret**:
   - `SUPABASE_ACCESS_TOKEN`: o token do passo 2.
-  - `SUPABASE_DB_PASSWORD`: a senha do banco do passo 1.
+  - `SUPABASE_DB_URL`: a linha de conexão do Session pooler, já com a senha.
 - Aba **Variables → New repository variable**:
   - `SUPABASE_PROJECT_REF`: o Project ref.
 
