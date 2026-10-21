@@ -529,6 +529,9 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
 #indoorG{display:none}
 .lv3 #indoorG{display:inline}
 .in-slab{fill:var(--paper-3);stroke:var(--ink);stroke-width:1.3px;vector-effect:non-scaling-stroke}
+.in-plan{pointer-events:none;opacity:.9}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .in-plan{filter:invert(1) sepia(.35)}}
+:root[data-theme="dark"] .in-plan{filter:invert(1) sepia(.35)}
 .in-b.focus .in-slab{stroke:var(--seal);stroke-width:2.2px}
 .in-p{fill:var(--paper-3);stroke:var(--ink);stroke-width:.9px;vector-effect:non-scaling-stroke}
 .in-r{cursor:pointer}
@@ -2064,6 +2067,8 @@ function renderIndoorB(b){
   indoorG.insertBefore(g, next ? next.g : null);
   const f = IN_FLOOR[b.id];
   el("path",{class:"in-slab", d:pd(b.poly)}, g);
+  // planta de verdade (paredes do DWG da UFPI), quando existe: uma imagem só, girada para o lugar certo
+  if (b.plan) el("image",{class:"in-plan", href:b.plan.href, width:b.plan.w, height:b.plan.h, preserveAspectRatio:"none", transform:`matrix(${b.plan.m.join(" ")})`}, g);
   b.items = [];
   for (const r of b.rooms){
     if (r.f !== f) continue;
@@ -2124,6 +2129,8 @@ function updateIndoor(kk){
     let bd = Infinity;
     for (const b of INDOOR){ const d = polyDist(cx, cy, b.poly); if (d < bd){ bd = d; best = b; } }
     if (bd > Math.min(vb.w, vb.h)*0.4) best = null;
+    // sala escolhida na busca: o seletor de andar é o do prédio dela (prédios vizinhos podem se sobrepor, como o CCE e o Anexo)
+    if (selIndoor){ const sb = IN_BY.get(selIndoor.bid); if (sb && polyDist(cx, cy, sb.poly) < Math.min(vb.w, vb.h)*0.4) best = sb; }
     for (const b of INDOOR) layoutIndoorB(b, kk);
   }
   if (best !== inFocus){
