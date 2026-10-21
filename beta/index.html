@@ -64,6 +64,22 @@ button,input,select,textarea{font:inherit;color:inherit}
 .campus-op[disabled]{opacity:.55;cursor:not-allowed;box-shadow:none}
 .pick-card .linkbtn{margin-top:14px}
 .campus-now{margin:0 0 10px;font-size:15px;color:var(--ink-soft)}
+/* conta (login só quando precisa) */
+.dlg-fundo{position:fixed;inset:0;z-index:60;background:rgba(30,18,8,.55);display:flex;align-items:center;justify-content:center;padding:12px}
+.dlg{position:relative;background:var(--paper-3);color:var(--ink);border:2px solid var(--ink);max-width:460px;width:100%;max-height:calc(100dvh - 24px);overflow:auto;padding:18px 18px 16px;box-shadow:6px 6px 0 rgba(0,0,0,.25)}
+.dlg h3{font-family:var(--display);font-weight:400;font-size:22px;margin:0 28px 10px 0;line-height:1.15}
+.dlg-x{position:absolute;right:8px;top:6px;background:none;border:0;font-size:28px;line-height:1;color:var(--ink);cursor:pointer;padding:4px 8px}
+.dlg ul{margin:6px 0 10px;padding-left:20px;font-size:15.5px}
+.dlg li{margin:3px 0}
+.dlg .field{margin:10px 0}
+.dlg input[type=email],.dlg input[type=text]{width:100%;background:#fffaf0;border:1.5px solid var(--ink);padding:9px 10px;font-size:17px;color:#2a1a0d}
+.dlg .escolha{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.dlg .escolha label{display:flex;gap:8px;align-items:flex-start;font-size:16px}
+.dlg .erro{color:var(--seal);font-size:15px;margin:6px 0 0}
+.termo-completo{border:1px solid var(--ink-faint);padding:8px 10px;max-height:40vh;overflow:auto;font-size:14.5px;background:var(--paper);margin:6px 0}
+.termo-completo h4{font-family:var(--display);font-weight:400;margin:10px 0 2px;font-size:15px}
+.conta-box{border:1.5px dashed var(--ink-soft);padding:8px 10px;margin:0 0 12px;font-size:15px}
+.conta-st{margin:0 0 6px}
 .fpsbox{position:absolute;left:12px;top:calc(58px + env(safe-area-inset-top,0px));z-index:7;background:var(--ink);color:var(--paper-3);font:600 12px/1.2 ui-monospace,Menlo,monospace;padding:3px 8px;pointer-events:none;white-space:nowrap}
 #world.cv #base > :not(.scale),#world.cv #bldG > :not(.disco){visibility:hidden}
 #mapWrap.reveal{animation:reveal 1.1s ease both}
@@ -698,6 +714,10 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
 
     <!-- EU -->
     <div class="pane" id="pane-eu" role="tabpanel">
+      <div class="conta-box" id="contaBox" hidden>
+        <p class="conta-st" id="contaSt"></p>
+        <div class="row" id="contaAcoes"></div>
+      </div>
       <div class="stack">
         <div class="status" id="meStatus">Você está invisível. Ninguém vê você no mapa.</div>
         <div class="field">
@@ -744,7 +764,7 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
           <textarea id="calibOut" class="ta" hidden readonly></textarea>
         </div>
         <div class="row">
-          <button class="btn seal" id="goVisible">Aparecer no mapa</button>
+          <button class="btn seal" id="goVisible" data-conta="aparecer no mapa">Aparecer no mapa</button>
           <button class="btn ghost" id="goHide" hidden>Malfeito feito: sumir do mapa</button>
         </div>
         <p class="note">Sua posição só aparece enquanto esta página estiver aberta e você estiver visível. Ao fechar a página ou tocar em “sumir”, suas pegadas desaparecem. Nada sobre sua posição fica gravado.</p>
@@ -799,7 +819,7 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
       <p class="note">XP vem só de ajuda confirmada e de contribuição ao mapa aprovada pela coordenação (até 5 por dia). Apertar “Posso ajudar”, mandar mensagens, compartilhar localização ou visitar prédios não dá pontos. A mesma dupla só pontua uma vez a cada 12 horas.</p>
       <hr class="rule">
       <h3>Ranking</h3>
-      <label class="check"><input type="checkbox" id="rkOpt"> <span>Quero aparecer no ranking e no Destaque do Mês</span></label>
+      <label class="check"><input type="checkbox" id="rkOpt" data-conta="entrar no ranking"> <span>Quero aparecer no ranking e no Destaque do Mês</span></label>
       <div class="row" style="margin-top:8px">
         <div class="field" style="flex:1 1 200px"><label for="rkCentro">Meu centro</label><select id="rkCentro"></select></div>
       </div>
@@ -882,7 +902,7 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
         <div class="field" id="repTimeWrap" hidden><label for="reportTime">Situação</label><select id="reportTime" class="sel"><option value="unknown">Não sei se é temporário</option><option value="temporary">Temporário / obras</option><option value="permanent">Permanente</option></select></div>
         <div class="field"><label for="reportPhoto" id="reportPhotoLbl">Foto do local atualizado ou do lugar novo (opcional, vale +10 XP)</label><input id="reportPhoto" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/*" style="width:100%;font-size:15px"><p class="note" id="reportPhotoStatus">Escolha uma foto do local, evitando rostos, placas de veículos e dados pessoais. A imagem será reduzida antes do envio.</p><img id="reportPreview" hidden alt="Prévia da foto do reporte" style="max-width:180px;max-height:160px;border:1px solid var(--ink-soft)"></div>
         <label class="check"><input type="checkbox" id="reportAgree"><span>Confirmo que este é um relato de boa-fé e autorizo o uso das informações e da foto para verificar o mapa.</span></label>
-        <div class="row"><button class="btn seal" id="reportSend">Enviar reporte</button><button class="btn ghost" id="reportDownload">Salvar reporte em arquivo</button></div>
+        <div class="row"><button class="btn seal" id="reportSend" data-conta="enviar uma contribuição">Enviar reporte</button><button class="btn ghost" id="reportDownload">Salvar reporte em arquivo</button></div>
         <p class="gps-status" id="reportStatus" role="status">O envio exige conexão e permissão de escrita. O arquivo exportado pode ser guardado para envio posterior.</p>
       </div>
       <hr class="rule">
@@ -946,6 +966,13 @@ button,.ctrls button,.chips button,.tabs button{touch-action:manipulation}
       </div>
     </div>
   </aside>
+  <div class="dlg-fundo" id="contaDlg" hidden role="dialog" aria-modal="true" aria-labelledby="contaTit">
+    <div class="dlg">
+      <button type="button" class="dlg-x" id="contaFechar" aria-label="Fechar">×</button>
+      <h3 id="contaTit">Para isso, entre com seu e-mail da UFPI</h3>
+      <div id="contaPasso"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -3447,6 +3474,230 @@ function marcarSom(){ $("zsom").setAttribute("aria-pressed", String(somLigado())
 $("zsom").onclick = () => { lsSet("mdc.som", !somLigado()); marcarSom(); if (somLigado()) tocarMusica(); else musica.pause(); };
 document.addEventListener("visibilitychange", () => { if (document.hidden) musica.pause(); else if (somLigado() && document.documentElement.classList.contains("map-open")) tocarMusica(); });
 marcarSom();
+
+/* <cripto> ------------------------------------------------------------------------------------------
+   Conversas cifradas de ponta a ponta (só os dois celulares leem). Usa só a Web Crypto do navegador:
+   ECDH P-256 entre as chaves das duas pessoas → HKDF (ligado ao pedido) → AES-GCM 256.
+   A chave privada é criada no aparelho, não sai dele (não exportável) e fica no IndexedDB.
+   Denúncia: o trecho anexado é cifrado para a chave pública da coordenação, com uma chave de uso único.
+   Os testes (tests/unit/cripto.test.mjs) leem este bloco direto do index.html.
+------------------------------------------------------------------------------------------------------ */
+const CRIPTO = (() => {
+  const C = globalThis.crypto.subtle, enc = new TextEncoder(), dec = new TextDecoder();
+  const b64 = u => { let s = ""; const a = new Uint8Array(u); for (let i = 0; i < a.length; i++) s += String.fromCharCode(a[i]); return btoa(s); };
+  const deb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const ECDH = { name: "ECDH", namedCurve: "P-256" };
+  async function novaChave(){
+    const par = await C.generateKey(ECDH, false, ["deriveBits"]);          // privada não exportável
+    return { privada: par.privateKey, publica: await C.exportKey("jwk", par.publicKey) };
+  }
+  async function derivar(privada, publicaJwk, contexto){
+    const pub = await C.importKey("jwk", publicaJwk, ECDH, false, []);
+    const bits = await C.deriveBits({ name: "ECDH", public: pub }, privada, 256);
+    const base = await C.importKey("raw", bits, "HKDF", false, ["deriveKey"]);
+    return C.deriveKey({ name: "HKDF", hash: "SHA-256", salt: enc.encode("mapa-do-calouro/v1"), info: enc.encode(contexto) },
+      base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  }
+  // chave da conversa de um pedido entre duas pessoas (a mesma nos dois lados)
+  const chaveConversa = (minhaPrivada, publicaDoOutro, pedidoId) => derivar(minhaPrivada, publicaDoOutro, "conversa:" + pedidoId);
+  async function cifrar(chave, texto){
+    const iv = globalThis.crypto.getRandomValues(new Uint8Array(12));
+    const c = await C.encrypt({ name: "AES-GCM", iv }, chave, enc.encode(String(texto)));
+    return { cifra: b64(c), iv: b64(iv) };
+  }
+  async function decifrar(chave, { cifra, iv }){
+    const p = await C.decrypt({ name: "AES-GCM", iv: deb64(iv) }, chave, deb64(cifra));
+    return dec.decode(p);
+  }
+  // anexo de denúncia: só quem tem a chave privada da coordenação abre
+  async function anexoParaCoordenacao(texto, publicaCoord){
+    const tmp = await C.generateKey(ECDH, true, ["deriveBits"]);
+    const chave = await derivar(tmp.privateKey, publicaCoord, "denuncia");
+    return { epk: await C.exportKey("jwk", tmp.publicKey), ...(await cifrar(chave, texto)) };
+  }
+  async function abrirAnexo(privadaCoord, anexo){ return decifrar(await derivar(privadaCoord, anexo.epk, "denuncia"), anexo); }
+  return { novaChave, chaveConversa, cifrar, decifrar, anexoParaCoordenacao, abrirAnexo };
+})();
+/* </cripto> */
+
+// ---------- conta (Supabase): o login só aparece quando a pessoa tenta algo que precisa de conta ----------
+// Sem SUPA configurado (ou sem internet), o app continua como antes. Com SUPA, ações marcadas com data-conta
+// pedem: termo (com declaração de 18+) → e-mail @ufpi.edu.br → código de 6 dígitos. Menores de 18 não criam conta.
+const SUPA = window.__SUPA_TESTE__ || {"url": "", "anonKey": "", "versaoTermo": "2026-10-21"};
+const TERMO_HTML = "<p>Versão de 21/10/2026. Prévia para revisão do encarregado de dados (DPO) da UFPI antes do uso com contas.</p><h4>O que é livre, sem conta</h4><p>O mapa, a busca de salas, os andares dos prédios e a sua localização pelo GPS. Sem conta, nada sobre você sai do seu aparelho.</p><h4>Quando pedimos login e por quê</h4><p>Só quando você quer fazer algo com outras pessoas: aparecer no mapa, pedir ou oferecer ajuda, conversar, enviar uma contribuição ou entrar no ranking. O login usa o seu e-mail @ufpi.edu.br, para garantir que quem está do outro lado é estudante da UFPI e para evitar contas falsas.</p><h4>Quem pode criar conta</h4><p>Só quem tem 18 anos ou mais. Quem tem menos de 18 anos usa o mapa normalmente, sem conta. Não pedimos a data de nascimento: guardamos apenas que você declarou ter 18 anos ou mais.</p><h4>O que guardamos</h4><ul><li>O seu e-mail @ufpi.edu.br, no sistema de login. Ele não aparece para outros alunos.</li><li>O aceite deste termo: a versão, a data e a declaração de maioridade.</li><li>O seu perfil: um apelido (não precisa ser o seu nome), se você é calouro ou veterano, o curso (se quiser) e se quer aparecer no ranking.</li><li>Pedidos de ajuda: o texto e o lugar. Ficam visíveis para alunos com conta enquanto o pedido está aberto.</li><li>Conversas: cifradas no seu aparelho antes de sair dele. O banco guarda só o texto cifrado; ninguém lê, nem a coordenação, nem o provedor.</li><li>Confirmações de ajuda e contribuições ao mapa, para calcular o XP.</li><li>Denúncias: o motivo e, se você quiser, o trecho da conversa que anexar. Só a coordenação lê.</li></ul><h4>O que não guardamos</h4><p>A sua localização (ela passa ao vivo para quem está com o mapa aberto e some quando você sai), telefone, CPF, número de matrícula, endereço ou foto de perfil.</p><h4>Por quanto tempo</h4><ul><li>Mensagens: 30 dias.</li><li>Texto de pedido encerrado: 30 dias (fica só o registro de que houve ajuda, para o XP).</li><li>Pedido aberto sem resposta: encerrado depois de 7 dias.</li><li>Denúncias e contribuições recusadas: 180 dias.</li><li>Conta e perfil: até você apagar.</li></ul><h4>Quem vê o quê</h4><ul><li>Outros alunos com conta: o seu apelido, papel, curso, os seus pedidos abertos e a sua posição enquanto você estiver visível no mapa.</li><li>Quem você ajuda ou quem ajuda você: as mensagens da conversa de vocês dois.</li><li>A coordenação do projeto: denúncias, contribuições enviadas e suspensões. Ela não lê conversas, a não ser o trecho que alguém anexar a uma denúncia.</li><li>O dono do banco de dados vê a lista de e-mails das contas; os demais dados ficam protegidos por regras de acesso, e as conversas, cifradas.</li></ul><h4>Onde ficam os dados</h4><p>No Supabase, provedor de banco de dados usado pelo projeto. Registros técnicos de acesso (como o endereço IP) ficam nos registros do provedor por tempo limitado.</p><h4>Os seus direitos (LGPD, art. 18)</h4><p>Você pode ver, corrigir e apagar os seus dados. O botão &quot;Apagar meus dados&quot;, na aba Eu, apaga a sua conta e tudo o que está ligado a ela. Apagar a conta também retira o seu consentimento.</p><h4>Base legal</h4><p>Consentimento (LGPD, art. 7º, I), dado por você ao aceitar este termo. Se o termo mudar, pediremos um novo aceite.</p>";   // docs/TERMO-DE-USO-E-PRIVACIDADE.md, convertido na montagem da página
+const SUPA_ON = !!(SUPA && SUPA.url && SUPA.anonKey);
+const EMAIL_UFPI = /^[a-z0-9._%+-]+@ufpi\.edu\.br$/i;
+const conta = { cli: null, sessao: null, consentido: false, email: "" };
+let supaCarregando = null;
+function supaCliente(){
+  if (conta.cli) return Promise.resolve(conta.cli);
+  if (supaCarregando) return supaCarregando;
+  supaCarregando = new Promise((ok, erro) => {
+    const criar = lib => { conta.cli = lib.createClient(SUPA.url, SUPA.anonKey, {auth:{persistSession:true, storageKey:"mdc.sessao", detectSessionInUrl:false, autoRefreshToken:true}}); ok(conta.cli); };
+    if (window.__SUPA_MOCK__) return criar(window.__SUPA_MOCK__);
+    if (window.supabase && window.supabase.createClient) return criar(window.supabase);
+    // a biblioteca fica no próprio site (sem CDN de terceiros) e só é baixada quando alguém precisa de conta
+    const s = document.createElement("script"); s.src = (CAMPUS.base || "") + "vendor/supabase-js-2.117.2.js";
+    s.onload = () => window.supabase ? criar(window.supabase) : erro(new Error("biblioteca do Supabase não carregou"));
+    s.onerror = () => { supaCarregando = null; erro(new Error("sem conexão para carregar o login")); };
+    document.head.appendChild(s);
+  });
+  return supaCarregando;
+}
+const contaPronta = () => !!(conta.sessao && conta.consentido);
+async function lerConta(){
+  const cli = await supaCliente();
+  const { data } = await cli.auth.getSession(); conta.sessao = data && data.session || null;
+  conta.email = conta.sessao && conta.sessao.user ? conta.sessao.user.email || "" : "";
+  conta.consentido = false;
+  if (conta.sessao){
+    const r = await cli.from("consentimentos").select("versao").eq("uid", conta.sessao.user.id).maybeSingle();
+    conta.consentido = !!(r && r.data && r.data.versao === SUPA.versaoTermo);
+  }
+  renderConta();
+}
+// ações que precisam de conta: o clique é segurado, a conta é feita e a ação continua sozinha
+document.addEventListener("click", ev => {
+  const b = ev.target.closest && ev.target.closest("[data-conta]");
+  if (!b || !SUPA_ON || contaPronta() || b.dataset.contaOk === "1") return;
+  ev.preventDefault(); ev.stopImmediatePropagation();
+  pedirConta(b.dataset.conta, () => { b.dataset.contaOk = "1"; b.click(); delete b.dataset.contaOk; });
+}, true);
+
+const dlg = $("contaDlg"), passo = $("contaPasso");
+let depoisDaConta = null, termoAceito = false, emailDigitado = "";
+function fecharConta(){ dlg.hidden = true; depoisDaConta = null; }
+$("contaFechar").onclick = fecharConta;
+dlg.addEventListener("click", e => { if (e.target === dlg) fecharConta(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !dlg.hidden) fecharConta(); });
+function erroConta(t){ let e = passo.querySelector(".erro"); if (!e){ e = h("p","erro"); passo.appendChild(e); } e.textContent = t; }
+
+function pedirConta(motivo, depois){
+  depoisDaConta = depois || null; dlg.hidden = false;
+  if (conta.sessao && !conta.consentido) return passoTermo(motivo);   // já entrou, falta aceitar a versão atual do termo
+  termoAceito = false; passoTermo(motivo);
+}
+function passoTermo(motivo){
+  $("contaTit").textContent = "Para " + motivo + ", entre com seu e-mail da UFPI";
+  passo.replaceChildren();
+  passo.append(h("p", null, "O mapa e a busca continuam livres, sem conta. O login só serve para o que envolve outras pessoas."));
+  const ul = h("ul");
+  for (const t of ["Guardamos: e-mail @ufpi.edu.br, o aceite do termo, apelido, papel, curso (se quiser), pedidos e contribuições.",
+                   "Não guardamos: sua localização, telefone, CPF, matrícula, endereço ou foto.",
+                   "Conversas são cifradas no seu celular: ninguém lê, nem a coordenação.",
+                   "Mensagens somem em 30 dias. Você pode apagar tudo a qualquer momento (aba Eu)."]) ul.appendChild(h("li", null, t));
+  passo.appendChild(ul);
+  const ver = h("button","linkbtn","Ler o termo completo"); ver.type = "button";
+  const box = h("div","termo-completo"); box.hidden = true; box.innerHTML = TERMO_HTML;
+  ver.onclick = () => { box.hidden = !box.hidden; ver.textContent = box.hidden ? "Ler o termo completo" : "Esconder o termo"; };
+  passo.append(ver, box);
+  const esc = h("div","escolha");
+  const idade = n => { const l = h("label"); const i = document.createElement("input"); i.type = "radio"; i.name = "idade"; i.value = n; l.append(i, h("span", null, n === "18" ? "Tenho 18 anos ou mais" : "Tenho menos de 18 anos")); return l; };
+  const aceite = h("label"); const ck = document.createElement("input"); ck.type = "checkbox"; ck.id = "termoOk";
+  aceite.append(ck, h("span", null, `Li e aceito o termo de uso e privacidade (versão de ${SUPA.versaoTermo.split("-").reverse().join("/")})`));
+  esc.append(idade("18"), idade("menor"), aceite); passo.appendChild(esc);
+  const go = h("button","btn seal","Continuar"); go.type = "button"; go.id = "termoContinuar";
+  go.onclick = () => {
+    const v = (passo.querySelector('input[name="idade"]:checked') || {}).value;
+    if (v === "menor") return passoMenor();
+    if (v !== "18") return erroConta("Responda se você tem 18 anos ou mais.");
+    if (!ck.checked) return erroConta("Para continuar, é preciso aceitar o termo.");
+    termoAceito = true;
+    if (conta.sessao) return gravarConsentimento(); passoEmail();
+  };
+  passo.appendChild(go);
+}
+function passoMenor(){
+  termoAceito = false; $("contaTit").textContent = "O mapa continua todo seu";
+  passo.replaceChildren(h("p", null, "Aparecer no mapa, pedir ajuda e conversar com outras pessoas são funções para maiores de 18 anos. O mapa, a busca de salas, os andares e o GPS continuam livres para você, sem conta."));
+  const ok = h("button","btn","Entendi"); ok.type = "button"; ok.onclick = fecharConta; passo.appendChild(ok);
+}
+function passoEmail(){
+  $("contaTit").textContent = "Seu e-mail da UFPI";
+  passo.replaceChildren(h("p", null, "Vamos mandar um código de 6 dígitos para o seu e-mail institucional."));
+  const f = h("div","field"); const i = document.createElement("input"); i.type = "email"; i.id = "contaEmail"; i.placeholder = "seu e-mail @ufpi.edu.br"; i.autocomplete = "email"; i.value = emailDigitado;
+  f.appendChild(i); passo.appendChild(f);
+  const go = h("button","btn seal","Enviar código"); go.type = "button"; go.id = "contaEnviar";
+  go.onclick = async () => {
+    const email = i.value.trim().toLowerCase(); emailDigitado = email;
+    if (!EMAIL_UFPI.test(email)) return erroConta("Use o seu e-mail @ufpi.edu.br.");
+    go.disabled = true; go.textContent = "Enviando…";
+    try {
+      const cli = await supaCliente();
+      const { error } = await cli.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
+      if (error) throw error;
+      passoCodigo(email);
+    } catch(e){ go.disabled = false; go.textContent = "Enviar código"; erroConta("Não foi possível enviar o código agora. Confira a internet e tente de novo."); }
+  };
+  passo.appendChild(go); setTimeout(() => i.focus(), 50);
+}
+function passoCodigo(email){
+  $("contaTit").textContent = "Digite o código";
+  passo.replaceChildren(h("p", null, `Mandamos um código para ${email}. Ele vale por alguns minutos.`));
+  const f = h("div","field"); const i = document.createElement("input"); i.type = "text"; i.id = "contaCodigo"; i.inputMode = "numeric"; i.autocomplete = "one-time-code"; i.maxLength = 6; i.placeholder = "123456";
+  f.appendChild(i); passo.appendChild(f);
+  const go = h("button","btn seal","Entrar"); go.type = "button"; go.id = "contaEntrar";
+  go.onclick = async () => {
+    const token = i.value.replace(/\D/g, "");
+    if (token.length !== 6) return erroConta("O código tem 6 dígitos.");
+    go.disabled = true;
+    try {
+      const cli = await supaCliente();
+      const { data, error } = await cli.auth.verifyOtp({ email, token, type: "email" });
+      if (error || !data || !data.session) throw error || new Error("sem sessão");
+      conta.sessao = data.session; conta.email = email;
+      await gravarConsentimento();
+    } catch(e){ go.disabled = false; erroConta("Código inválido ou vencido. Peça outro."); }
+  };
+  const outro = h("button","linkbtn","Pedir outro código"); outro.type = "button"; outro.onclick = passoEmail;
+  passo.append(go, h("span", null, " "), outro); setTimeout(() => i.focus(), 50);
+}
+async function gravarConsentimento(){
+  if (!termoAceito) return passoTermo("continuar");
+  try {
+    const cli = await supaCliente();
+    const { error } = await cli.from("consentimentos").upsert({ versao: SUPA.versaoTermo, adulto: true });
+    if (error) throw error;
+    conta.consentido = true; renderConta();
+    const fazer = depoisDaConta; dlg.hidden = true; depoisDaConta = null;
+    toast("Pronto! Você entrou com " + conta.email + ".");
+    if (fazer) fazer();
+  } catch(e){ erroConta("Não foi possível registrar o aceite do termo. Tente de novo."); }
+}
+let apagarArmado = false;
+function renderConta(){
+  const box = $("contaBox"); box.hidden = !SUPA_ON; if (!SUPA_ON) return;
+  const acoes = $("contaAcoes"); acoes.replaceChildren();
+  if (conta.sessao){
+    $("contaSt").textContent = `Conectado como ${conta.email}.` + (conta.consentido ? "" : " Falta aceitar o termo atual.");
+    const sair = h("button","btn ghost small","Sair"); sair.type = "button"; sair.onclick = async () => { const cli = await supaCliente(); await cli.auth.signOut(); conta.sessao = null; conta.consentido = false; conta.email = ""; renderConta(); toast("Você saiu da conta."); };
+    const apagar = h("button","btn ghost small", apagarArmado ? "Tenho certeza: apagar tudo" : "Apagar meus dados"); apagar.type = "button"; apagar.id = "contaApagar";
+    apagar.onclick = async () => {
+      if (!apagarArmado){ apagarArmado = true; renderConta(); toast("Isso apaga sua conta, perfil, pedidos, mensagens e contribuições. Toque de novo para confirmar."); return; }
+      apagarArmado = false; apagar.disabled = true;
+      try {
+        const cli = await supaCliente(), uid = conta.sessao.user.id;
+        // fotos primeiro (o Supabase só apaga arquivos pela API de armazenamento), depois a conta e tudo ligado a ela
+        const lista = await cli.storage.from("contribuicoes").list(uid);
+        const arqs = ((lista && lista.data) || []).map(f => uid + "/" + f.name);
+        if (arqs.length) await cli.storage.from("contribuicoes").remove(arqs);
+        const { error } = await cli.rpc("apagar_minha_conta"); if (error) throw error;
+        await cli.auth.signOut();
+        conta.sessao = null; conta.consentido = false; conta.email = "";
+        try { for (const k of Object.keys(localStorage)) if (k.startsWith("mdc.")) localStorage.removeItem(k); } catch(_){}
+        renderConta(); toast("Seus dados foram apagados.");
+      } catch(e){ apagar.disabled = false; toast("Não foi possível apagar agora. Tente de novo com internet."); }
+    };
+    acoes.append(sair, apagar);
+  } else {
+    $("contaSt").textContent = "O mapa funciona sem conta. O login só é pedido para aparecer no mapa, pedir ajuda, contribuir ou entrar no ranking.";
+    const entrar = h("button","btn ghost small","Entrar com e-mail da UFPI"); entrar.type = "button"; entrar.onclick = () => pedirConta("entrar", null);
+    acoes.appendChild(entrar);
+  }
+}
+renderConta();
+// sessão guardada de outra visita: restaura sem pedir nada
+try { if (SUPA_ON && localStorage.getItem("mdc.sessao")) lerConta().catch(() => {}); } catch(_){}
 
 // ---------- cover ----------
 function abrirMapa(comToque){

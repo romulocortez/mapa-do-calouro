@@ -22,6 +22,9 @@ Testes de algo que só existe na beta começam com `test.skip(process.env.PAGINA
 Cada campus é uma página com os mesmos códigos e dados próprios: Teresina em `index.html`, Picos em `picos/index.html`.
 O mapa de Picos (prévia) foi desenhado a partir de uma imagem de satélite (escala da barra do Google) e do croqui de salas; tudo está marcado como aproximado e o GPS fica desligado até termos pontos com latitude e longitude.
 
+## Banco de dados (Supabase)
+Migrações em `supabase/migrations`, testes das regras de acesso em `tests/db` (Postgres local, sem internet) e passo a passo em `docs/SUPABASE.md`. O termo de uso fica em `docs/TERMO-DE-USO-E-PRIVACIDADE.md` e aparece no app antes do login.
+
 ## Como os testes aparecem no GitHub
 A cada envio de arquivos, abra a aba **Actions** do repositório. Um ✓ verde quer dizer que tudo passou;
 um ✗ vermelho mostra qual teste quebrou (e o relatório fica disponível para baixar por 7 dias).
