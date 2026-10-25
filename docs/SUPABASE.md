@@ -65,6 +65,13 @@ select id from auth.users where email = 'seu.email@ufpi.edu.br';
 ### 7. Ligar o site
 Me mande a **Project URL** e a chave **anon / publishable**. Elas entram em `supabase_publico.json` e o login passa a aparecer na beta.
 
+## Projeto pausado (plano gratuito)
+No plano gratuito o Supabase pausa o projeto depois de 7 dias sem uso e avisa por e-mail. Nada se perde.
+- Para religar: painel do Supabase → projeto *Mapa do Calouro UFPI* → **Restore project** (prazo de 90 dias).
+- Para não pausar: o workflow **Manter o banco ativo** (`.github/workflows/manter-ativo.yml`) faz um `select 1` a cada 3 dias pela conexão do secret `SUPABASE_DB_URL`. Não lê nenhuma tabela. Se o secret faltar ou o banco não responder, o workflow falha e o GitHub avisa por e-mail.
+- O GitHub desliga tarefas agendadas depois de 60 dias sem commits; reative em Actions → Manter o banco ativo → Enable workflow.
+- Quando houver uso real, o plano Pro (sem pausa, com backup diário) passa a valer a pena.
+
 ## Limpeza automática (LGPD)
 Todo dia às 03h15, a função `privado.limpeza()`:
 - apaga as mensagens com mais de 30 dias;

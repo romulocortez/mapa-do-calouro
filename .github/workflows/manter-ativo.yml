@@ -1,0 +1,37 @@
+# Mantém o projeto do Supabase acordado: no plano gratuito ele é pausado depois de 7 dias sem uso.
+# A cada 3 dias faz uma consulta mínima ("select 1") pela mesma conexão usada nas migrações.
+# Não lê nem escreve nenhuma tabela e não toca em dado de ninguém.
+# Precisa do secret SUPABASE_DB_URL (ver docs/SUPABASE.md). Sem ele, falha de propósito, para o GitHub avisar por e-mail.
+# Obs.: o GitHub desliga tarefas agendadas depois de 60 dias sem nenhum commit no repositório;
+# se isso acontecer, reative em Actions → "Manter o banco ativo" → Enable workflow.
+name: Manter o banco ativo
+on:
+  schedule:
+    - cron: "17 9 */3 * *"   # 06:17 em Teresina, a cada 3 dias
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ping:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+    steps:
+      - name: Confere o secret
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "::error::Falta o secret SUPABASE_DB_URL (veja docs/SUPABASE.md). Sem ele o projeto do Supabase volta a pausar."
+            exit 1
+          fi
+      - name: Consulta mínima no banco
+        run: |
+          sudo apt-get install -y -qq postgresql-client >/dev/null
+          for tentativa in 1 2 3; do
+            if psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -qtAc "select 1" >/dev/null; then
+              echo "Banco respondeu."; exit 0
+            fi
+            echo "Sem resposta (tentativa $tentativa); tentando de novo em 30 s."; sleep 30
+          done
+          echo "::error::O banco não respondeu. Se o projeto já foi pausado, religue no painel do Supabase (Restore project)."
+          exit 1
