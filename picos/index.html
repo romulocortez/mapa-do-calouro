@@ -10,9 +10,15 @@ addEventListener("error",function(e){ __mapaFalha((e&&e.message)||"erro de scrip
 addEventListener("unhandledrejection",function(e){ /* rejeições assíncronas não impedem o mapa de abrir */ });
 </script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Mapa do Calouro</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap">
+<style>/* Fontes hospedadas no próprio site (licença SIL OFL 1.1, em fonts/): nenhum pedido vai para o Google */
+@font-face{font-family:"Henny Penny";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/henny-penny-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:600;font-display:swap;src:url("../fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:600;font-display:swap;src:url("../fonts/cormorant-garamond-latin-600-italic.woff2") format("woff2")}
+@font-face{font-family:"IM Fell English SC";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/im-fell-english-sc-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Crimson Pro";font-style:normal;font-weight:400;font-display:swap;src:url("../fonts/crimson-pro-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Crimson Pro";font-style:normal;font-weight:600;font-display:swap;src:url("../fonts/crimson-pro-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Crimson Pro";font-style:italic;font-weight:400;font-display:swap;src:url("../fonts/crimson-pro-latin-400-italic.woff2") format("woff2")}
+</style>
 <style>
 /* Layout: full-bleed engraved parchment map, ledger panel at the side (desktop) or bottom (phone). */
 :root{
