@@ -1,7 +1,7 @@
 import { test, expect, abrirMapa, buscar } from "./_base.mjs";
 
 
-const larguraID = page => page.evaluate(() => { const g = document.querySelector("#people .pp.sel .bn"); return g ? g.getBoundingClientRect().width : 0; });
+const larguraID = page => page.evaluate(() => { const g = document.querySelector("#people .pp.sel:not(.empilhado) .bn"); return g ? g.getBoundingClientRect().width : 0; });
 const kAtual = page => page.evaluate(() => +document.getElementById("map").getAttribute("viewBox").split(" ")[2] / document.getElementById("stage").getBoundingClientRect().width);
 const tamanhoID = k => Math.min(2.4, Math.max(0.5, 0.8 / k));   // regra de tamanho (metros por pixel → escala)
 
@@ -9,13 +9,18 @@ test("o pergaminho com o nome (ID) cresce com o zoom e encolhe ao afastar, como 
   await abrirMapa(page);
   await page.locator("#tab-gente").click(); await page.locator("#demoBtn").click();
   await page.waitForTimeout(1500);
-  // escolhe alguém que esteja sozinho (quem está em grupo vira balão)
-  let meio = 0;
-  for (let i = 0; i < 20 && !meio; i++){ await page.locator("#peopleList li button").nth(i).click(); await page.waitForTimeout(800); meio = await larguraID(page); }
-  const k1 = await kAtual(page);
-  for (let i = 0; i < 3; i++){ await page.evaluate(() => document.getElementById("zin").click()); await page.waitForTimeout(350); }
-  await page.waitForTimeout(700);
-  const perto = await larguraID(page), k2 = await kAtual(page);
+  // escolhe alguém que esteja sozinho: quem está em grupo vira balão e, de perto, entra numa pilha de IDs
+  // (V37), onde o ID tem tamanho fixo
+  const zoom = async (id, n) => { for (let i = 0; i < n; i++){ await page.evaluate(b => document.getElementById(b).click(), id); await page.waitForTimeout(350); } await page.waitForTimeout(700); };
+  let meio = 0, perto = 0, k1 = 0, k2 = 0;
+  for (let i = 0; i < 20 && !perto; i++){
+    await page.locator("#peopleList li button").nth(i).click(); await page.waitForTimeout(800);
+    meio = await larguraID(page); if (!meio) continue;
+    k1 = await kAtual(page);
+    await zoom("zin", 3);
+    perto = await larguraID(page); k2 = await kAtual(page);
+    if (!perto) await zoom("zout", 3);
+  }
   expect(meio).toBeGreaterThan(0);
   const esperado = tamanhoID(k2) / tamanhoID(k1);
   expect(esperado).toBeGreaterThan(1.15);                       // o zoom mudou o bastante para o ID crescer

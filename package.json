@@ -11,6 +11,7 @@
     "test:banco": "node --test --test-reporter=spec \"tests/db/*.test.mjs\""
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
     "@electric-sql/pglite": "^0.5.11",
     "@playwright/test": "1.56.0"
   }

@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><script>
+<!doctype html><html lang="pt-BR"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><script>
 /* Diagnóstico: se o mapa não conseguir iniciar neste navegador, avisa na própria capa em vez de ficar parado. */
 window.__mapaOk=false;
 function __mapaFalha(msg){ if(window.__mapaOk) return; var go=function(){ var b=document.getElementById("openMap"); var p=document.getElementById("cvErro");
@@ -10,25 +10,31 @@ addEventListener("error",function(e){ __mapaFalha((e&&e.message)||"erro de scrip
 addEventListener("unhandledrejection",function(e){ /* rejeições assíncronas não impedem o mapa de abrir */ });
 </script><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Mapa do Calouro</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=IM+Fell+English+SC&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap">
+<style>/* Fontes hospedadas no próprio site (licença SIL OFL 1.1, em fonts/): nenhum pedido vai para o Google */
+@font-face{font-family:"Henny Penny";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/henny-penny-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:600;font-display:swap;src:url("fonts/cormorant-garamond-latin-600-italic.woff2") format("woff2")}
+@font-face{font-family:"IM Fell English SC";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/im-fell-english-sc-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Crimson Pro";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/crimson-pro-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Crimson Pro";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/crimson-pro-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Crimson Pro";font-style:italic;font-weight:400;font-display:swap;src:url("fonts/crimson-pro-latin-400-italic.woff2") format("woff2")}
+</style>
 <style>
 /* Layout: full-bleed engraved parchment map, ledger panel at the side (desktop) or bottom (phone). */
 :root{
-  --paper:#e8d3ac; --paper-2:#d4bc8d; --paper-3:#f2e4c5;
-  --ink:#3b2414; --ink-soft:#6d5035; --ink-faint:rgba(59,36,20,.18);
-  --seal-dark:#56160f; --seal:#6f2018; --vet:#2b5260; --gold:#9a762d; --water:#c8c9ad; --grass:#d7d3a3; --road:#fbf3e1; --road-av:#ecd39c; --road-case:#967650;
+  --paper:#e8d3ac; --paper-2:#d4bc8d; --paper-3:#f2e4c5; --on-seal:#f2e4c5;
+  --ink:#3b2414; --ink-soft:#5e4329; --ink-faint:rgba(59,36,20,.18);   /* tinta suave e dourado mais escuros: contraste mínimo 4,5:1 (WCAG AA) */
+  --seal-dark:#56160f; --seal:#6f2018; --vet:#2b5260; --gold:#6e5318; --water:#c8c9ad; --grass:#d7d3a3; --road:#fbf3e1; --road-av:#ecd39c; --road-case:#967650;
   --display:"IM Fell English SC","IM Fell English",Georgia,"Times New Roman",serif;
   --hand:"Cormorant Garamond",Georgia,"Times New Roman",serif;   /* a IM Fell tinha um J que parecia F ("Furo solenemente") */
   --body:"Crimson Pro",Georgia,"Times New Roman",serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#2a1e12; --paper-2:#1c140b; --paper-3:#35271a;
+  --paper:#2a1e12; --paper-2:#1c140b; --paper-3:#35271a; --on-seal:#140d06;
   --ink:#ecd8ab; --ink-soft:#bfa37a; --ink-faint:rgba(236,216,171,.16);
   --seal:#ea7a62; --vet:#8cc0cc; --gold:#d6ad5a; --water:#24302a; --grass:#2f2c18; --road:#4d3d2a; --road-av:#6a5530; --road-case:#120c06; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#2a1e12; --paper-2:#1c140b; --paper-3:#35271a;
+  --paper:#2a1e12; --paper-2:#1c140b; --paper-3:#35271a; --on-seal:#140d06;
   --ink:#ecd8ab; --ink-soft:#bfa37a; --ink-faint:rgba(236,216,171,.16);
   --seal:#ea7a62; --vet:#8cc0cc; --gold:#d6ad5a; --water:#24302a; --grass:#2f2c18; --road:#4d3d2a; --road-av:#6a5530; --road-case:#120c06; color-scheme:dark}
 
@@ -213,6 +219,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .bn-roll{fill:var(--paper-2);stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round}
 .bn-ink{fill:none;stroke:var(--ink);stroke-width:1;stroke-linecap:round}
 .bn-tail{stroke-width:.95}
+.bn-lead{stroke:#3b2414;stroke-width:1.4;stroke-dasharray:3 2;opacity:.8;pointer-events:none}
+.pp.calouro .bn-lead{stroke:var(--seal)} .pp.veterano .bn-lead{stroke:var(--vet)} .pp.professor .bn-lead{stroke:var(--gold)}
+.pp.empilhado .rib-r{display:none}
 .bn-hatch{fill:none;stroke:var(--ink);stroke-width:.5;opacity:.35}
 .bn-t{font-family:"Henny Penny","Cormorant Garamond",Georgia,serif;font-size:15px;fill:#3b2414;letter-spacing:.01em}   /* tinta escura sempre: o pergaminho é claro também no modo escuro */
 .pp.sel .bn-t,.pp.me .bn-t{fill:#6f2018}
@@ -325,8 +334,8 @@ html:not(.map-open) .panel,html:not(.map-open) .topbar,html:not(.map-open) .titl
 .seg{display:flex;border:1.5px solid var(--ink)}
 .seg button{flex:1;background:transparent;border:0;padding:7px 8px;cursor:pointer;font-family:var(--hand);font-size:17px}
 .seg button+button{border-left:1.5px solid var(--ink)}
-.seg button[aria-pressed="true"].c{background:var(--seal);color:var(--paper-3)}
-.seg button[aria-pressed="true"].v{background:var(--vet);color:var(--paper-3)}
+.seg button[aria-pressed="true"].c{background:var(--seal);color:var(--on-seal)}
+.seg button[aria-pressed="true"].v{background:var(--vet);color:var(--on-seal)}
 .check{display:flex;gap:9px;align-items:flex-start;font-size:16px}
 .check input{margin-top:4px;accent-color:var(--seal);width:17px;height:17px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -1660,6 +1669,7 @@ function sizeScroll(B, w){
   B.M.setAttribute("transform", `translate(${f(x0 + wl - 0.3)} ${f(y0)}) scale(${(s*sx + 0.6/SCR.M).toFixed(5)} ${s})`);   // 0,3 px de sobreposição: sem fresta entre as fatias
   B.R.setAttribute("transform", `translate(${f(x0 + wl + wm - 0.3)} ${f(y0)}) scale(${s})`);
   B.t.setAttribute("x", f(x0 + (SCR.tx0*s + tot - (SCR.L + SCR.M + SCR.R - SCR.tx1)*s)/2));
+  return tot;
 }
 function makeMarker(key){
   const g = el("g",{class:"pp"}, peopleG);
@@ -1667,26 +1677,74 @@ function makeMarker(key){
   el("circle",{class:"hit", r:13}, g);
   const feet = el("g",{}, g);
   [[-3.8,7,-8],[3.8,-6,8]].forEach(([x,y,r]) => el("use",{href:"#foot", class:"foot stand", transform:`translate(${x} ${y}) rotate(${r}) scale(1.1)`}, feet));
+  const lead = el("line",{class:"bn-lead", x1:0, y1:-12, x2:0, y2:-12, visibility:"hidden"}, g);   // fio do ID empilhado até a pessoa
   const bn = el("g",{class:"bn", transform:"translate(0 -44)"}, g);
   const B = makeScroll(bn), tp = B.t;
   const r = el("text",{class:"rib-r", y:27}, g);
-  const m = {key, g, feet, bn, bs:0, B, tp, r, tr: makeTrail(), heading: hash(key)%360, data:null, disp:null, nameW:0, sig:""};
+  const m = {key, g, feet, bn, lead, off:null, offSig:"", bs:0, bw:0, B, tp, r, tr: makeTrail(), heading: hash(key)%360, data:null, disp:null, nameW:0, sig:""};
   g.addEventListener("click", ev => { if (moved || justPlaced) return; ev.stopPropagation(); selectPerson(key, true); });
   markers.set(key, m); return m;
 }
 // tamanho do ID (pergaminho com o nome): cresce com o zoom como o nome das salas, dentro de limites legíveis
 function idScale(){ return clamp(0.8 / k(), 0.5, 2.4); }
-function scaleID(bn, bs){ bn.setAttribute("transform", `translate(0 ${(-(10 + 34*bs)).toFixed(1)}) scale(${bs.toFixed(3)})`); }
+const idY = bs => -(10 + 34*bs);   // centro do ID acima da cabeça, em pixels da tela
+function scaleID(bn, bs, off){ bn.setAttribute("transform", `translate(${off ? off.dx.toFixed(1) : 0} ${(off ? off.dy : idY(bs)).toFixed(1)}) scale(${(off ? off.s : bs).toFixed(3)})`); }
+// IDs empilhados: quando o ID de alguém cobriria outra pessoa ou outro ID, quem está perto divide uma pilha
+// de IDs acima das cabeças do grupo (um nome embaixo do outro), cada um ligado à sua pessoa por um fio.
+// Tudo em pixels da tela (as coordenadas do mapa divididas pela escala do marcador).
+function layoutIDs(){
+  // na pilha o ID fica num tamanho fixo e menor, para a pilha caber na tela mesmo com o mapa bem aproximado
+  const kk = Math.min(k(), 3.2), bs = idScale(), bp = Math.min(bs, 1), P = 34*bp;
+  const ms = [...markers.values()].filter(m => m.data && m.g.isConnected);
+  const pos = new Map(ms.map(m => { const p = m.disp || m.data; return [m, {x:p.x/kk, y:p.y/kk}]; }));
+  const idBox = (x, y, w, e = bs) => ({x0:x - w/2, x1:x + w/2, y0:y - 14*e, y1:y + 20*e});
+  const corpo = q => ({x0:q.x - 14, x1:q.x + 14, y0:q.y - 16, y1:q.y + 14});
+  const toca = (a, b) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+  const pai = new Map(ms.map(m => [m, m])), raiz = m => { while (pai.get(m) !== m){ pai.set(m, pai.get(pai.get(m))); m = pai.get(m); } return m; };
+  const une = (a, b) => { const ra = raiz(a), rb = raiz(b); if (ra !== rb){ pai.set(ra, rb); return true; } return false; };
+  const caixa = new Map(ms.map(m => { const q = pos.get(m); return [m, idBox(q.x, q.y + idY(bs), (m.bw || 60)*bs)]; }));
+  let grupos;
+  for (let volta = 0; volta < 4; volta++){
+    let mudou = false;
+    for (let i = 0; i < ms.length; i++) for (let j = 0; j < ms.length; j++){
+      if (i === j) continue;
+      const a = ms[i], b = ms[j];
+      if (raiz(a) === raiz(b)) continue;
+      if (toca(caixa.get(a), corpo(pos.get(b))) || (j > i && toca(caixa.get(a), caixa.get(b)))) mudou = une(a, b) || mudou;
+    }
+    grupos = new Map(); for (const m of ms){ const r = raiz(m); (grupos.get(r) || grupos.set(r, []).get(r)).push(m); }
+    for (const g of grupos.values()){
+      if (g.length === 1){ g[0].off = null; const q = pos.get(g[0]); caixa.set(g[0], idBox(q.x, q.y + idY(bs), (g[0].bw || 60)*bs)); continue; }
+      g.sort((a, b) => a.key < b.key ? -1 : 1);   // ordem fixa: a pilha não troca de lugar enquanto o grupo anda
+      const topo = Math.min(...g.map(m => pos.get(m).y)), cx = g.reduce((t, m) => t + pos.get(m).x, 0)/g.length;
+      g.forEach((m, i) => {
+        const q = pos.get(m), y = topo + idY(bp) - i*P;
+        m.off = {dx: cx - q.x, dy: y - q.y, s: bp};
+        caixa.set(m, idBox(cx, y, (m.bw || 60)*bp, bp));
+      });
+    }
+    if (!mudou) break;
+  }
+  for (const m of markers.values()){
+    if (!pos.has(m)) m.off = null;
+    const sig = m.off ? m.off.dx.toFixed(1) + "," + m.off.dy.toFixed(1) + "," + bs.toFixed(3) : "";
+    if (sig === m.offSig) continue;
+    m.offSig = sig; m.bs = bs; scaleID(m.bn, bs, m.off);
+    if (m.off){ m.lead.setAttribute("x2", m.off.dx.toFixed(1)); m.lead.setAttribute("y2", (m.off.dy + 12*m.off.s).toFixed(1)); m.lead.setAttribute("visibility", "visible"); }
+    else m.lead.setAttribute("visibility", "hidden");
+    m.g.classList.toggle("empilhado", !!m.off);   // na pilha, o papel (CALOURO/VETERANO) sai de baixo dos pés: a cor do fio mostra
+  }
+}
 function placeMarker(m){
   const kk = Math.min(k(), 3.2), p = m.disp || m.data, bs = idScale();
-  if (Math.abs(m.bs - bs) > 0.005){ m.bs = bs; scaleID(m.bn, bs); }
+  if (Math.abs(m.bs - bs) > 0.005){ m.bs = bs; m.offSig = ""; scaleID(m.bn, bs, m.off); }
   m.g.setAttribute("transform", `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${kk.toFixed(3)})`);
   m.feet.setAttribute("transform", `rotate(${m.heading.toFixed(0)})`);
   trailRescale(m.tr, kk);
 }
 // caminhada suave entre uma posição recebida e a próxima, deixando pegadas pelo caminho
 const walkers = new Set(); let walkRaf = 0;
-let walkLast = 0;
+let walkLast = 0, idsAt = 0;
 function walkTick(now){
   walkRaf = 0;
   const kk = Math.min(k(), 3.2);
@@ -1707,6 +1765,7 @@ function walkTick(now){
     placeMarker(m);
     trailFeed(m.tr, m.disp.x, m.disp.y, m.heading, kk, now);
   }
+  if (now - idsAt > 250){ idsAt = now; layoutIDs(); }
   if (walkers.size){ if (document.hidden){ for (const m of walkers){ m.disp = {x:m.data.x, y:m.data.y}; m.lastTick = 0; placeMarker(m); } walkers.clear(); } else walkRaf = requestAnimationFrame(walkTick); }
 }
 function updateMarker(m, d, o){
@@ -1718,7 +1777,7 @@ function updateMarker(m, d, o){
     else if (far > 0.3){ walkers.add(m); if (!walkRaf) walkRaf = requestAnimationFrame(walkTick); }
   }
   m.tr.g.classList.toggle("prof", d.role === "p");
-  m.g.setAttribute("class", `pp ${ROLE_CLS(d.role)}${d.help?" help":""}${o.me?" me":""}${o.demo?" demo":""}${selPerson===m.key?" sel":""}`);
+  m.g.setAttribute("class", `pp ${ROLE_CLS(d.role)}${d.help?" help":""}${o.me?" me":""}${o.demo?" demo":""}${selPerson===m.key?" sel":""}${m.off?" empilhado":""}`);
   const label = d.name + (o.me ? " (você)" : "") + (o.demo && !d.egg ? " (exemplo)" : "");
   const st = statsFor(o.uid);
   const roleTxt = ROLE_TXT(d.role) + ((st.helps || st.contrib) ? " · " + titleFor(st.xp).title.toUpperCase() : "") + (d.help ? " · PEDE AJUDA" : "");
@@ -1728,7 +1787,7 @@ function updateMarker(m, d, o){
     bnMeasure.textContent = label;
     try { m.nameW = bnMeasure.getComputedTextLength(); } catch(_){}
     if (!m.nameW) m.nameW = label.length*8.2;
-    sizeScroll(m.B, m.nameW);
+    m.bw = sizeScroll(m.B, m.nameW);
   }
   placeMarker(m);
 }
@@ -1816,6 +1875,7 @@ function renderNow(){
   for (const key of [...markers.keys()]) if (!keys.has(key)) removeMarker(key);
   for (const i of toShow){ const m = markers.get(i.key) || makeMarker(i.key); updateMarker(m, i.d, i); }
   renderClusters(grouped.clusters);
+  layoutIDs();
   const mm = markers.get("me"); if (mm) peopleG.appendChild(mm.g);
   if (!$("pane-gente").hidden) renderList(all); else { listDirty = true; renderCounts(all); }
   renderLive(all); if (selPerson) renderPersonCard(all); else $("personCard").replaceChildren();
@@ -2741,7 +2801,7 @@ const LUGARES = [...PLACES.map(p => ({v:"p:"+p.id, t:p.full, x:p.x, y:p.y})),
   ...NAMED.names.filter(n => n.k === "b").map(n => ({v:"b:"+n.t, t:n.t, x:n.x, y:n.y}))].sort((a,b) => a.t.localeCompare(b.t, "pt"));
 const LUGAR = Object.fromEntries(LUGARES.map(l => [l.v, l]));
 function lugarSelect(id, val, label){
-  const s = h("select"); s.id = id; s.className = "sel";
+  const s = h("select"); s.id = id; s.className = "sel"; s.setAttribute("aria-label", label);   // nome para leitor de tela
   const o0 = h("option", null, label); o0.value = ""; s.appendChild(o0);
   for (const l of LUGARES){ const o = h("option", null, l.t); o.value = l.v; if (l.v === val) o.selected = true; s.appendChild(o); }
   return s;
@@ -3523,8 +3583,8 @@ const CRIPTO = (() => {
 // ---------- conta (Supabase): o login só aparece quando a pessoa tenta algo que precisa de conta ----------
 // Sem SUPA configurado (ou sem internet), o app continua como antes. Com SUPA, ações marcadas com data-conta
 // pedem: termo (com declaração de 18+) → e-mail @ufpi.edu.br → código de 6 dígitos. Menores de 18 não criam conta.
-const SUPA = window.__SUPA_TESTE__ || {"url": "", "anonKey": "", "versaoTermo": "2026-10-21"};
-const TERMO_HTML = "<p>Versão de 21/10/2026. Prévia para revisão do encarregado de dados (DPO) da UFPI antes do uso com contas.</p><h4>O que é livre, sem conta</h4><p>O mapa, a busca de salas, os andares dos prédios e a sua localização pelo GPS. Sem conta, nada sobre você sai do seu aparelho.</p><h4>Quando pedimos login e por quê</h4><p>Só quando você quer fazer algo com outras pessoas: aparecer no mapa, pedir ou oferecer ajuda, conversar, enviar uma contribuição ou entrar no ranking. O login usa o seu e-mail @ufpi.edu.br, para garantir que quem está do outro lado é estudante da UFPI e para evitar contas falsas.</p><h4>Quem pode criar conta</h4><p>Só quem tem 18 anos ou mais. Quem tem menos de 18 anos usa o mapa normalmente, sem conta. Não pedimos a data de nascimento: guardamos apenas que você declarou ter 18 anos ou mais.</p><h4>O que guardamos</h4><ul><li>O seu e-mail @ufpi.edu.br, no sistema de login. Ele não aparece para outros alunos.</li><li>O aceite deste termo: a versão, a data e a declaração de maioridade.</li><li>O seu perfil: um apelido (não precisa ser o seu nome), se você é calouro ou veterano, o curso (se quiser) e se quer aparecer no ranking.</li><li>Pedidos de ajuda: o texto e o lugar. Ficam visíveis para alunos com conta enquanto o pedido está aberto.</li><li>Conversas: cifradas no seu aparelho antes de sair dele. O banco guarda só o texto cifrado; ninguém lê, nem a coordenação, nem o provedor.</li><li>Confirmações de ajuda e contribuições ao mapa, para calcular o XP.</li><li>Denúncias: o motivo e, se você quiser, o trecho da conversa que anexar. Só a coordenação lê.</li></ul><h4>O que não guardamos</h4><p>A sua localização (ela passa ao vivo para quem está com o mapa aberto e some quando você sai), telefone, CPF, número de matrícula, endereço ou foto de perfil.</p><h4>Por quanto tempo</h4><ul><li>Mensagens: 30 dias.</li><li>Texto de pedido encerrado: 30 dias (fica só o registro de que houve ajuda, para o XP).</li><li>Pedido aberto sem resposta: encerrado depois de 7 dias.</li><li>Denúncias e contribuições recusadas: 180 dias.</li><li>Conta e perfil: até você apagar.</li></ul><h4>Quem vê o quê</h4><ul><li>Outros alunos com conta: o seu apelido, papel, curso, os seus pedidos abertos e a sua posição enquanto você estiver visível no mapa.</li><li>Quem você ajuda ou quem ajuda você: as mensagens da conversa de vocês dois.</li><li>A coordenação do projeto: denúncias, contribuições enviadas e suspensões. Ela não lê conversas, a não ser o trecho que alguém anexar a uma denúncia.</li><li>O dono do banco de dados vê a lista de e-mails das contas; os demais dados ficam protegidos por regras de acesso, e as conversas, cifradas.</li></ul><h4>Onde ficam os dados</h4><p>No Supabase, provedor de banco de dados usado pelo projeto. Registros técnicos de acesso (como o endereço IP) ficam nos registros do provedor por tempo limitado.</p><h4>Os seus direitos (LGPD, art. 18)</h4><p>Você pode ver, corrigir e apagar os seus dados. O botão &quot;Apagar meus dados&quot;, na aba Eu, apaga a sua conta e tudo o que está ligado a ela. Apagar a conta também retira o seu consentimento.</p><h4>Base legal</h4><p>Consentimento (LGPD, art. 7º, I), dado por você ao aceitar este termo. Se o termo mudar, pediremos um novo aceite.</p>";   // docs/TERMO-DE-USO-E-PRIVACIDADE.md, convertido na montagem da página
+const SUPA = window.__SUPA_TESTE__ || {"url": "", "anonKey": "", "versaoTermo": "2026-10-25"};
+const TERMO_HTML = "<p>Versão de 25/10/2026. Prévia para revisão do encarregado de dados (DPO) da UFPI antes do uso com contas.</p><h4>Quem é responsável pelos seus dados</h4><p>A controladora dos dados é a Universidade Federal do Piauí (UFPI). O Mapa do Calouro é coordenado no Departamento de Engenharia Mecânica do Centro de Tecnologia (CT/UFPI).</p><p>Para dúvidas sobre os seus dados ou para exercer os seus direitos, fale com o encarregado de dados (DPO) da UFPI pelo canal oficial: ufpi.br/encarregados-contato-dpo-lgpd</p><h4>O que é livre, sem conta</h4><p>O mapa, a busca de salas, os andares dos prédios e a sua localização pelo GPS. Sem conta, nada sobre você sai do seu aparelho.</p><h4>Quando pedimos login e por quê</h4><p>Só quando você quer fazer algo com outras pessoas: aparecer no mapa, pedir ou oferecer ajuda, conversar, enviar uma contribuição ou entrar no ranking. O login usa o seu e-mail @ufpi.edu.br, para garantir que quem está do outro lado é estudante da UFPI e para evitar contas falsas.</p><h4>Quem pode criar conta</h4><p>Só quem tem 18 anos ou mais. Quem tem menos de 18 anos usa o mapa normalmente, sem conta. Não pedimos a data de nascimento: guardamos apenas que você declarou ter 18 anos ou mais.</p><h4>O que guardamos</h4><ul><li>O seu e-mail @ufpi.edu.br, no sistema de login. Ele não aparece para outros alunos.</li><li>O aceite deste termo: a versão, a data e a declaração de maioridade.</li><li>O seu perfil: um apelido (não precisa ser o seu nome), se você é calouro ou veterano, o curso (se quiser) e se quer aparecer no ranking.</li><li>Pedidos de ajuda: o texto e o lugar. Ficam visíveis para alunos com conta enquanto o pedido está aberto.</li><li>Conversas: cifradas no seu aparelho antes de sair dele. O banco guarda só o texto cifrado; ninguém lê, nem a coordenação, nem o provedor.</li><li>Confirmações de ajuda e contribuições ao mapa, para calcular o XP.</li><li>Denúncias: o motivo e, se você quiser, o trecho da conversa que anexar. Só a coordenação lê.</li></ul><h4>O que não guardamos</h4><p>A sua localização (ela passa ao vivo para quem está com o mapa aberto e some quando você sai), telefone, CPF, número de matrícula, endereço ou foto de perfil.</p><h4>Por quanto tempo</h4><ul><li>Mensagens: 30 dias.</li><li>Texto de pedido encerrado: 30 dias (fica só o registro de que houve ajuda, para o XP).</li><li>Pedido aberto sem resposta: encerrado depois de 7 dias.</li><li>Denúncias e contribuições recusadas: 180 dias.</li><li>Conta e perfil: até você apagar.</li></ul><h4>Quem vê o quê</h4><ul><li>Outros alunos com conta: o seu apelido, papel, curso, os seus pedidos abertos e a sua posição enquanto você estiver visível no mapa.</li><li>Quem você ajuda ou quem ajuda você: as mensagens da conversa de vocês dois.</li><li>A coordenação do projeto: denúncias, contribuições enviadas e suspensões. Ela não lê conversas, a não ser o trecho que alguém anexar a uma denúncia.</li><li>O dono do banco de dados vê a lista de e-mails das contas; os demais dados ficam protegidos por regras de acesso, e as conversas, cifradas.</li></ul><h4>O que fica no seu aparelho</h4><p>O mapa guarda no seu próprio navegador só o que serve a você: o campus escolhido, se a música está ligada, o apelido e o curso que você preencheu, as pessoas que você bloqueou, os seus envios de contribuição e o ajuste de calibração do GPS. Com conta, guarda também a sessão de login, para você não precisar entrar de novo. Isso não sai do aparelho e você apaga quando limpar os dados do navegador.</p><p>Não usamos cookies de propaganda, Google Analytics nem nenhum outro rastreador. As fontes, as imagens e as músicas vêm do próprio site, sem passar por outras empresas.</p><h4>Onde ficam os dados</h4><ul><li>O site é hospedado no GitHub Pages (GitHub, empresa dos EUA). Como em qualquer site, o servidor recebe o endereço IP de quem visita e guarda registros técnicos por tempo limitado.</li><li>As contas e o banco de dados ficam no Supabase, em servidores em São Paulo. O Supabase (empresa dos EUA) atua como operador: guarda os dados para a UFPI e não pode usá-los para outros fins. Registros técnicos de acesso (como o endereço IP) ficam nos registros do provedor por tempo limitado.</li></ul><h4>Os seus direitos (LGPD, art. 18)</h4><p>Você pode ver, corrigir e apagar os seus dados. O botão &quot;Apagar meus dados&quot;, na aba Eu, apaga a sua conta e tudo o que está ligado a ela. Apagar a conta também retira o seu consentimento.</p><h4>Base legal</h4><p>Consentimento (LGPD, art. 7º, I), dado por você ao aceitar este termo. Se o termo mudar, pediremos um novo aceite.</p><h4>Leis que seguimos</h4><ul><li>Lei Geral de Proteção de Dados Pessoais (Lei 13.709/2018), incluindo o cuidado especial com adolescentes (art. 14): quem tem menos de 18 anos usa o mapa sem conta.</li><li>Estatuto da Criança e do Adolescente (Lei 8.069/1990).</li><li>Marco Civil da Internet (Lei 12.965/2014).</li><li>Lei Brasileira de Inclusão (Lei 13.146/2015): o mapa busca ser acessível, e testes automáticos verificam isso a cada versão.</li><li>Lei de Direitos Autorais (Lei 9.610/1998).</li></ul><h4>Créditos e direitos</h4><ul><li>Arte do pergaminho e trilhas sonoras: criações do coordenador do projeto (as trilhas foram feitas com a ferramenta de IA Gemini).</li><li>Ruas, caminhos e prédios: © colaboradores do OpenStreetMap, sob a licença ODbL.</li><li>Fontes Henny Penny, Cormorant Garamond, IM Fell English SC e Crimson Pro, sob a licença SIL Open Font License.</li><li>Projeto não oficial, inspirado no universo de Harry Potter, sem vínculo com os autores ou titulares dos direitos dessa obra.</li></ul>";   // docs/TERMO-DE-USO-E-PRIVACIDADE.md, convertido na montagem da página
 const SUPA_ON = !!(SUPA && SUPA.url && SUPA.anonKey);
 const EMAIL_UFPI = /^[a-z0-9._%+-]+@ufpi\.edu\.br$/i;
 const conta = { cli: null, sessao: null, consentido: false, email: "" };
