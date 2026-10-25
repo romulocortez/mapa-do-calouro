@@ -17,7 +17,7 @@ Ele lida com dados de outras pessoas (nome, curso, posição, conversas, fotos).
 ## Dados pessoais e segurança (LGPD)
 8. **Não colete o que não precisa.** Nada de telefone, CPF, matrícula, endereço ou foto de perfil.
 9. **Localização ao vivo nunca vai para o banco.** Só passa pela conexão em tempo real e some quando a pessoa sai.
-10. Dado guardado que identifica alguém (ex.: e-mail do login) fica **criptografado** no banco.
+10. Dado guardado que identifica alguém fica no mínimo necessário e protegido por regra de acesso. O e-mail do login fica só no sistema de login do Supabase (não é copiado para as tabelas do app nem aparece para outros alunos). **Não prometa criptografia que não existe**: textos para o usuário só dizem "criptografado" quando o dado é mesmo cifrado.
 11. Conversas que as pessoas acham privadas: avisar que não são privadas, apagar depois do prazo (30 dias) e criptografar no banco.
 12. Toda tabela tem regra de acesso (RLS no Supabase). Cada pessoa lê só o que é dela; a coordenação lê denúncias e relatos.
 13. **XP é calculado no servidor ou a partir de dados que o celular não consegue forjar.** Nunca aceitar "eu ganhei X pontos" vindo do aparelho.
