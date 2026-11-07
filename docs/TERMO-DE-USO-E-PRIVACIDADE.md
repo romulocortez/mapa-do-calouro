@@ -1,6 +1,6 @@
 # Termo de uso e privacidade do Mapa do Calouro
 
-Versão de 25/10/2026. Prévia para revisão do encarregado de dados (DPO) da UFPI antes do uso com contas.
+Versão de 07/11/2026. Prévia para revisão do encarregado de dados (DPO) da UFPI antes do uso com contas.
 
 ## Quem é responsável pelos seus dados
 A controladora dos dados é a Universidade Federal do Piauí (UFPI). O Mapa do Calouro é coordenado no Departamento de Engenharia Mecânica do Centro de Tecnologia (CT/UFPI).
@@ -65,4 +65,5 @@ Consentimento (LGPD, art. 7º, I), dado por você ao aceitar este termo. Se o te
 - Arte do pergaminho e trilhas sonoras: criações do coordenador do projeto (as trilhas foram feitas com a ferramenta de IA Gemini).
 - Ruas, caminhos e prédios: © colaboradores do OpenStreetMap, sob a licença ODbL.
 - Fontes Henny Penny, Cormorant Garamond, IM Fell English SC e Crimson Pro, sob a licença SIL Open Font License.
+- Participação especial no mapa do campus de Bom Jesus: Whindersson Nunes, com autorização. Ele aparece só como um personagem andando pelo campus; nenhuma frase ou opinião é atribuída a ele.
 - Projeto não oficial, inspirado no universo de Harry Potter, sem vínculo com os autores ou titulares dos direitos dessa obra.

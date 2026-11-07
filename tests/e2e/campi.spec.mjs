@@ -2,13 +2,14 @@ import { test, expect, buscar } from "./_base.mjs";
 
 // Escolha do campus depois do juramento e o mapa de Picos (prévia).
 
-test("depois do juramento aparece a escolha entre os 4 campi; Bom Jesus e Floriano ainda não abrem", async ({ page }) => {
+test("depois do juramento aparece a escolha entre os 4 campi; Floriano ainda não abre (Bom Jesus só no beta)", async ({ page }) => {
   await page.goto("/");
   await page.locator("#openMap").click();
   const lista = page.locator("#campusList button");
   await expect(lista).toHaveCount(4);
   await expect(lista).toHaveText([/Teresina/, /Picos/, /Bom Jesus/, /Floriano/]);
-  await expect(page.locator('#campusList button[data-campus="bomjesus"]')).toBeDisabled();
+  if (process.env.PAGINA === "/beta/") await expect(page.locator('#campusList button[data-campus="bomjesus"]')).toBeEnabled();
+  else await expect(page.locator('#campusList button[data-campus="bomjesus"]')).toBeDisabled();
   await expect(page.locator('#campusList button[data-campus="floriano"]')).toBeDisabled();
   await page.locator('#campusList button[data-campus="teresina"]').click();
   await expect(page.locator("#campusPick")).toBeHidden();
