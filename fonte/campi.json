@@ -1,0 +1,6 @@
+[
+  {"id": "teresina", "cidade": "Teresina", "nome": "Campus Ministro Petrônio Portella", "pasta": ""},
+  {"id": "picos", "cidade": "Picos", "nome": "Campus Senador Helvídio Nunes de Barros", "pasta": "picos/", "status": "prévia"},
+  {"id": "bomjesus", "cidade": "Bom Jesus", "nome": "Campus Professora Cinobelina Elvas", "pasta": null, "status": "em breve"},
+  {"id": "floriano", "cidade": "Floriano", "nome": "Campus Amílcar Ferreira Sobral", "pasta": null, "status": "em breve"}
+]

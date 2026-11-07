@@ -28,3 +28,4 @@ Ele lida com dados de outras pessoas (nome, curso, posição, conversas, fotos).
 ## Entrega
 17. Commits pequenos, com descrição clara do que mudou.
 18. Mudança grande vai primeiro para o ambiente de teste (beta) com um grupo pequeno, depois para todos.
+19. **As páginas são montadas a partir de `fonte/`.** Edite `fonte/modelo.html` e `fonte/campi/<campus>/*.json`, nunca `index.html` ou `beta/index.html` direto, e rode `python3 fonte/build.py beta`. Tudo o que for preciso para montar o site fica no repositório, nada só em pasta temporária (o teste `tests/unit/fonte.test.mjs` confere).
